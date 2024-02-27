@@ -1,50 +1,89 @@
 package com.example.myapplication;
+import static android.content.ContentValues.TAG;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.myapplication.databinding.ActivityProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class ProfileActivity extends AppCompatActivity {
 
 
 
 
-    FirebaseAuth auth;
-    Button button;
-    TextView textView;
-    FirebaseUser user;
+    private FirebaseAuth auth;
+    FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
+        @Override
+        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+            if(firebaseAuth.getCurrentUser() == null){
+                Log.d(TAG,"Sign out");
+                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Log.w(TAG,"Sign out failed");
+                Toast.makeText(ProfileActivity.this, "Sign Out Filed",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    };
+    private FirebaseFirestore fdb;
+    private String userID;
+    private ActivityProfileBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        binding = ActivityProfileBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        fdb = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.logout);
-        textView = findViewById(R.id.user_details);
-        user = auth.getCurrentUser();
+        userID = auth.getCurrentUser().getUid();
 
-        if(user == null){
+
+
+        if(auth.getCurrentUser() == null){
             Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(intent);
             finish();
         } else {
-            textView.setText(user.getEmail());
+            if(auth.getCurrentUser() != null) {
+                DocumentReference documentReference = fdb.collection("users").document(userID);
+                documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if(value != null) {
+                            binding.profileName.setText(value.getString("nickname"));
+                            binding.profileEmail.setText(value.getString("email"));
+                        }
+                    }
+                });
+            }
         }
 
-        button.setOnClickListener(new View.OnClickListener() {
+        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                startActivity(intent);
-                finish();
+                auth.addAuthStateListener(authStateListener);
+
+                auth.signOut();
+
+
 
             }
         });

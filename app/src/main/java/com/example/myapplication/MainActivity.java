@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         tv_wayPointCounts = findViewById(R.id.tv_countOfCrumbs);
         btn_showMap = findViewById(R.id.btn_showMap);
         btn_showProfile = findViewById(R.id.btn_showProfile);
-        btn_homePage = findViewById(R.id.btn_homePage);
+//        btn_homePage = findViewById(R.id.btn_homePage);
 
         //set all properties of Locationrequest
 
@@ -126,13 +126,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_homePage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(i);
-            }
-        });
+//        btn_homePage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(MainActivity.this, HomeActivity.class);
+//                startActivity(i);
+//            }
+//        });
 
         sw_gps.setOnClickListener(new View.OnClickListener() {
             @Override

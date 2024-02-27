@@ -224,13 +224,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_showMap" />
-    <Button
-        android:id="@+id/btn_homePage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Home page"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_showProfile" />
+<!--    <Button-->
+<!--        android:id="@+id/btn_homePage"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Home page"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btn_showProfile" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
