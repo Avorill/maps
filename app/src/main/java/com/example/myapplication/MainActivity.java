@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_FINE_LOCATION = 99;
     TextView tv_lat, tv_lon, tv_altitude, tv_accuracy, tv_speed, tv_address, tv_updates, tv_sensor,
     tv_wayPointCounts;
-    Button btn_newWayPoint, btn_showWayPointList, btn_showMap;
+    Button btn_newWayPoint, btn_showWayPointList, btn_showMap, btn_showProfile, btn_homePage;
     Switch sw_locationupdates, sw_gps;
     boolean updateOn= false;
     //current location
@@ -66,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
         btn_showWayPointList= findViewById(R.id.btn_showWayPointList);
         tv_wayPointCounts = findViewById(R.id.tv_countOfCrumbs);
         btn_showMap = findViewById(R.id.btn_showMap);
-
+        btn_showProfile = findViewById(R.id.btn_showProfile);
+        btn_homePage = findViewById(R.id.btn_homePage);
 
         //set all properties of Locationrequest
 
@@ -117,7 +118,21 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        btn_showProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(i);
+            }
+        });
 
+        btn_homePage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(i);
+            }
+        });
 
         sw_gps.setOnClickListener(new View.OnClickListener() {
             @Override

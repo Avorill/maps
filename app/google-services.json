@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "341103205769",
+    "project_id": "find-and-share-your-way",
+    "storage_bucket": "find-and-share-your-way.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:341103205769:android:36c9a223527e4ecf721558",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9lFVItB7WZnoNh5mwAKw_60IvLMA1LgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

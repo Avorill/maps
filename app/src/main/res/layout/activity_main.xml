@@ -203,7 +203,7 @@
         android:id="@+id/btn_showWayPointList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Show Waypoint list"
+        android:text="@string/show_waypoint_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_newWayPoint" />
@@ -216,5 +216,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_showWayPointList" />
+    <Button
+        android:id="@+id/btn_showProfile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Profile Page"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_showMap" />
+    <Button
+        android:id="@+id/btn_homePage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Home page"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_showProfile" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
