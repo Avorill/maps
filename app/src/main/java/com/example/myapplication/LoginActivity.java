@@ -45,8 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
         //databaseHelper = new DatabaseHelper(this);
-
-
+        MyApp myApp = (MyApp) getApplicationContext();
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, "Login successful",
                                                 Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        myApp.onCreate();
                                         startActivity( intent );
                                         finish();
                                     } else {

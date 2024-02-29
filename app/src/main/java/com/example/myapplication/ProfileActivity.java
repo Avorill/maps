@@ -19,6 +19,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.ArrayList;
+
 public class ProfileActivity extends AppCompatActivity {
 
 
@@ -31,13 +33,15 @@ public class ProfileActivity extends AppCompatActivity {
 
             if(firebaseAuth.getCurrentUser() == null){
                 Log.d(TAG,"Sign out");
+                Toast.makeText(ProfileActivity.this, "Sign Out Successfully",
+                       Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
-            } else {
-                Log.w(TAG,"Sign out failed");
-                Toast.makeText(ProfileActivity.this, "Sign Out Filed",
-                        Toast.LENGTH_SHORT).show();
+//            } else {
+//                Log.w(TAG,"Sign out failed");
+//                Toast.makeText(ProfileActivity.this, "Sign Out Failed",
+//                        Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -54,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
         fdb = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         userID = auth.getCurrentUser().getUid();
-
+        MyApp myApp = (MyApp) getApplicationContext();
 
 
         if(auth.getCurrentUser() == null){
@@ -80,10 +84,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 auth.addAuthStateListener(authStateListener);
-
                 auth.signOut();
-
-
 
             }
         });

@@ -2,14 +2,19 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import android.widget.Button;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -19,6 +24,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MapsActivity extends AppCompatActivity{
@@ -45,20 +51,20 @@ public class MapsActivity extends AppCompatActivity{
         //inflate and create the map
         setContentView(R.layout.activity_maps);
 
+        Button btn_test = findViewById(R.id.btn_test);
         map = (MapView) findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
 
         requestPermissionsIfNecessary(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE });
 
 
-        map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
         map.setMinZoomLevel(1.0);
         map.setMaxZoomLevel(21.0);
+        map.setUseDataConnection(false);
         IMapController mapController = map.getController();
         mapController.setZoom(12.5);
-          GeoPoint startPoint = new GeoPoint(53.939249, 27.316127);
-         mapController.setCenter(startPoint);
+        //GeoPoint startPoint = new GeoPoint(53.939249, 27.316127);
 //        Marker startMarker = new Marker(map);
 //        startMarker.setPosition(startPoint);
 //        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
@@ -70,10 +76,24 @@ public class MapsActivity extends AppCompatActivity{
             GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
             Marker marker = new Marker(map);
             marker.setPosition(point);
+            mapController.setCenter(point);
             marker.setTitle("Lat: " + location.getLatitude() + "; Lon: " + location.getLongitude());
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
             map.getOverlays().add(marker);
         }
+        btn_test.setOnClickListener(v -> {
+            Intent i = new Intent(MapsActivity.this,MainActivity.class);
+            startActivity(i);
+            finish();
+
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -84,7 +104,7 @@ public class MapsActivity extends AppCompatActivity{
         //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
-        GeoPoint startPoint = new GeoPoint(53.939249, 27.316127);
+      //  GeoPoint startPoint = new GeoPoint(53.939249, 27.316127);
 //        Marker startMarker = new Marker(map);
 //        startMarker.setPosition(startPoint);
 //        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
@@ -113,12 +133,10 @@ public class MapsActivity extends AppCompatActivity{
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         ArrayList<String> permissionsToRequest = new ArrayList<>();
-        for (int i = 0; i < grantResults.length; i++) {
-            permissionsToRequest.add(permissions[i]);
-        }
+        permissionsToRequest.addAll(Arrays.asList(permissions).subList(0, grantResults.length));
         if (permissionsToRequest.size() > 0) {
             ActivityCompat.requestPermissions(
                     this,

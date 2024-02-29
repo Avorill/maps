@@ -68,29 +68,10 @@ public class SignUpActivity extends AppCompatActivity {
                 Toast.makeText(SignUpActivity.this,"All fields are mandatory",
                         Toast.LENGTH_SHORT).show();
             } else if (password.equals(confirmPassword)) {
-
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(task -> {
                             binding.signupProgressBar.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
-                                try {
-                                    throw task.getException();
-                                } catch (FirebaseAuthUserCollisionException e) {
-
-                                    Toast.makeText(SignUpActivity.this, "Email is already used",
-                                            Toast.LENGTH_SHORT).show();
-                                    Log.w(TAG, "FirebaseAuthUserCollisionException");
-
-                                } catch (FirebaseNetworkException e) {
-
-                                    Toast.makeText(SignUpActivity.this, "Network error",
-                                            Toast.LENGTH_SHORT).show();
-                                    Log.w(TAG, "FirebaseNetworkException");
-
-                                } catch (Exception e) {
-
-                                    Log.w(TAG, "Unknown exception");
-                                }
 
                                 Log.d(TAG, "createUserWithEmail:success");
                                 Toast.makeText(SignUpActivity.this, "Account created",
@@ -101,7 +82,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 Map<String, Object> user = new HashMap<>();
                                 user.put("nickname",nickname);
                                 user.put("email",email);
-                                user.put("password",password);
+                                user.put("route_count",Integer.valueOf(0) );
                                 documentReference.set(user)
                                         .addOnSuccessListener(unused -> Log.d(TAG,"onSuccess: user profile created for " + userID))
                                         .addOnFailureListener(e -> Log.w(TAG, "onFailure: " + e.toString()));
@@ -110,32 +91,35 @@ public class SignUpActivity extends AppCompatActivity {
                                 finish();
 
                             } else {
+                                try {
+                                    throw task.getException();
+                                } catch (FirebaseAuthUserCollisionException e) {
+
+                                    Toast.makeText(SignUpActivity.this, "Email already in use ",
+                                            Toast.LENGTH_SHORT).show();
+                                    Log.w(TAG, "FirebaseAuthUserCollisionException");
+
+                                } catch (FirebaseNetworkException e) {
+
+                                    Toast.makeText(SignUpActivity.this, "Network error",
+                                            Toast.LENGTH_SHORT).show();
+                                    Log.w(TAG, "FirebaseNetworkException");
+
+                                } catch (Exception e) {
+                                    Toast.makeText(SignUpActivity.this, "Registration failed.",
+                                       Toast.LENGTH_SHORT).show();
+                                    Log.w(TAG, "Unknown exception");
+                                }
                                 // If sign in fails, display a message to the user.
-                                Log.d(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(SignUpActivity.this, "Registration failed.",
-                                        Toast.LENGTH_SHORT).show();
+//                                Log.d(TAG, "createUserWithEmail:failure", task.getException());
+//                                Toast.makeText(SignUpActivity.this, "Registration failed.",
+//                                        Toast.LENGTH_SHORT).show();
 
                             }
                         });
 
 
 
-//                    Boolean checkUserEmail = databaseHelper.checkEmail(email);
-//
-//                    if(checkUserEmail == false){
-//                        Boolean insert = databaseHelper.insertData(email,password);
-//
-//                        if(insert == true){
-//                            Toast.makeText(SignUpActivity.this,"SignUp successfully",Toast.LENGTH_SHORT).show();
-//                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-//                            startActivity(intent);
-//
-//                        } else {
-//                            Toast.makeText(SignUpActivity.this,"SignUp Failed",Toast.LENGTH_SHORT).show();
-//                        }
-//                    } else {
-//                        Toast.makeText(SignUpActivity.this,"User already exists, please login",Toast.LENGTH_SHORT).show();
-//                    }
 
             } else {
                 Toast.makeText(SignUpActivity.this,"Invalid password",Toast.LENGTH_SHORT).show();
