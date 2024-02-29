@@ -82,10 +82,10 @@ public class SignUpActivity extends AppCompatActivity {
                                 Map<String, Object> user = new HashMap<>();
                                 user.put("nickname",nickname);
                                 user.put("email",email);
-                                user.put("route_count",Integer.valueOf(0) );
+                                user.put("route_count", 0);
                                 documentReference.set(user)
                                         .addOnSuccessListener(unused -> Log.d(TAG,"onSuccess: user profile created for " + userID))
-                                        .addOnFailureListener(e -> Log.w(TAG, "onFailure: " + e.toString()));
+                                        .addOnFailureListener(e -> Log.w(TAG, "onFailure: " + e.getMessage()));
                                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                 startActivity(intent);
                                 finish();

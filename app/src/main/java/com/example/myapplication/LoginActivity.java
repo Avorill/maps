@@ -58,25 +58,22 @@ public class LoginActivity extends AppCompatActivity {
             }
             else {
                 mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                binding.loginProgressBar.setVisibility(View.GONE);
-                                if (task.isSuccessful()) {
+                        .addOnCompleteListener(task -> {
+                            binding.loginProgressBar.setVisibility(View.GONE);
+                            if (task.isSuccessful()) {
 
-                                    Log.d(TAG, "signInWithEmail:success");
-                                    Toast.makeText(LoginActivity.this, "Login successful",
-                                            Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    myApp.onCreate();
-                                    startActivity( intent );
-                                    finish();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                    Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
+                                Log.d(TAG, "signInWithEmail:success");
+                                Toast.makeText(LoginActivity.this, "Login successful",
+                                        Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                myApp.onCreate();
+                                startActivity( intent );
+                                finish();
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
                             }
                         });
 

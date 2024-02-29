@@ -34,8 +34,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
@@ -65,8 +63,8 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onPause() {
-        System.out.println("on Pause");
         super.onPause();
+        Log.d(TAG, " on  Pause  Main activity started");
 
     }
 
@@ -127,8 +125,10 @@ public class MainActivity extends AppCompatActivity  {
                 //save the location
                 Location location = locationResult.getLastLocation();
                 if (location != null) {
-                    updateUIvalues(location);
-                   savedLocations.add(location);
+
+                        updateUIvalues(location);
+                        savedLocations.add(location);
+
                 }
 
             }
@@ -163,98 +163,56 @@ public class MainActivity extends AppCompatActivity  {
                 Map<String, Object> loc = new HashMap<>();
                 savedLocations = myApp.getMyLocations();
                 DocumentReference dr = fdb.collection("users").document(userId);
-//                dr.addSnapshotListener(this, (value, error) -> {
-//                    if (value != null) {
-//                        route_count = value.get("route_count", Integer.TYPE);
-//                        dr.update("route_count", FieldValue.increment(1));
-//                        Log.d(TAG, " route_count was gotten and incremented");
-//
-//                    }
-//                });
 
-                fdb.runTransaction(new Transaction.Function<Void>() {
+                fdb.runTransaction((Transaction.Function<Void>) transaction -> {
+                    DocumentSnapshot snapshot = transaction.get(dr);
+                    route_count = snapshot.get("route_count",Integer.TYPE);
+                    Log.d(TAG, "route_count was gotten");
+                    transaction.update(dr,"route_count", route_count + 1);
 
-                    @Nullable
-                    @Override
-                    public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
-                        DocumentSnapshot snapshot = transaction.get(dr);
-                        route_count = snapshot.get("route_count",Integer.TYPE);
-                        Log.d(TAG, "route_count was gotten");
-                        transaction.update(dr,"route_count", route_count + 1);
+                    return null;
+                }).addOnSuccessListener(unused -> {
+                    Log.d(TAG, "Transaction success!");
 
-                        return null;
+                    int i = 0;
+                    for (Location location : savedLocations) {
+                        Log.d(TAG,"Start writing to db");
+                        DocumentReference documentReference = fdb.collection("routes")
+                                .document(userId).collection("journey" + route_count).document("loc" + i);
+                        i++;
+                        loc.put("lat", location.getLatitude());
+                        loc.put("lon", location.getLongitude());
+                        loc.put("time", location.getTime());
+                        documentReference.set(loc)
+                                .addOnSuccessListener(unu -> {
+                                    Log.d(TAG, " success add location");
+                                    Toast.makeText(MainActivity.this, "Upload to db successful",
+                                            Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.w(TAG, "failure in: " + e.getMessage());
+                                    Toast.makeText(MainActivity.this, "Upload to db failed",
+                                            Toast.LENGTH_SHORT).show();
+                                });
                     }
-                }).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "Transaction success!");
 
-                        int i = 0;
-                        for (Location location : savedLocations) {
-                            Log.d(TAG,"Start writing to db");
-                            DocumentReference documentReference = fdb.collection("routes")
-                                    .document(userId).collection("journey" + route_count).document("loc" + i);
-                            i++;
-                            loc.put("lat", location.getLatitude());
-                            loc.put("lon", location.getLongitude());
-                            loc.put("time", location.getTime());
-                            documentReference.set(loc)
-                                    .addOnSuccessListener(unu -> {
-                                        Log.d(TAG, " success add location");
-                                        Toast.makeText(MainActivity.this, "Upload to db successful",
-                                                Toast.LENGTH_SHORT).show();
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Log.w(TAG, "failure in: " + e.getMessage());
-                                        Toast.makeText(MainActivity.this, "Upload to db failed",
-                                                Toast.LENGTH_SHORT).show();
-                                    });
-                        }
+                    stopLocationUpdates();
+                    myApp.setMyLocations(new ArrayList<>());
+                    savedLocations = myApp.getMyLocations();
+                    tv_wayPointCounts.setText(Integer.toString(savedLocations.size()));
 
-                        stopLocationUpdates();
-                        myApp.setMyLocations(new ArrayList<>());
-                        savedLocations = myApp.getMyLocations();
-                        tv_wayPointCounts.setText(Integer.toString(savedLocations.size()));
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Transaction failed");
-                    }
+
+
+                }).addOnFailureListener(e -> {
+                    Log.w(TAG, "Transaction failed");
+                    stopLocationUpdates();
+                    myApp.setMyLocations(new ArrayList<>());
+                    savedLocations = myApp.getMyLocations();
+                    tv_wayPointCounts.setText(Integer.toString(savedLocations.size()));
                 });
+                stopLocationUpdates();
 
 
-
-
-
-//                int i = 0;
-//                for (Location location : savedLocations) {
-//                    Log.d(TAG,"Start writing to db");
-//                    DocumentReference documentReference = fdb.collection("routes")
-//                            .document(userId).collection("journey" + route_count).document("loc" + i);
-//                    i++;
-//                    loc.put("lat", location.getLatitude());
-//                    loc.put("lon", location.getLongitude());
-//                    loc.put("time", location.getTime());
-//                    documentReference.set(loc)
-//                            .addOnSuccessListener(unused -> {
-//                                Log.d(TAG, " success add location");
-//                                Toast.makeText(this, "Upload to db successful",
-//                                        Toast.LENGTH_SHORT).show();
-//                            })
-//                            .addOnFailureListener(e -> {
-//                                Log.w(TAG, "failure in: " + e.getMessage());
-//                                Toast.makeText(this, "Upload to db failed",
-//                                        Toast.LENGTH_SHORT).show();
-//                            });
-//                }
-
-//                stopLocationUpdates();
-//                myApp.setMyLocations(new ArrayList<>());
-//                savedLocations = myApp.getMyLocations();
-//                tv_wayPointCounts.setText(Integer.toString(savedLocations.size()));
-//                updateUIvalues(null);
-//                stopLocationUpdates();
             }
             else {
                 Log.w(TAG, "Nothing to save");
@@ -305,7 +263,9 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     @SuppressLint("SetTextI18n")
+
     private void stopLocationUpdates() {
+        Log.d(TAG, "Stop Location updates");
         tv_updates.setText("Location is not being tracked");
         tv_lat.setText("Not Tracking location");
         tv_lon.setText("Not tracking location");

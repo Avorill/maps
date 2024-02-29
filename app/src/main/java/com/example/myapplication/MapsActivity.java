@@ -135,8 +135,7 @@ public class MapsActivity extends AppCompatActivity{
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        ArrayList<String> permissionsToRequest = new ArrayList<>();
-        permissionsToRequest.addAll(Arrays.asList(permissions).subList(0, grantResults.length));
+        ArrayList<String> permissionsToRequest = new ArrayList<>(Arrays.asList(permissions).subList(0, grantResults.length));
         if (permissionsToRequest.size() > 0) {
             ActivityCompat.requestPermissions(
                     this,
