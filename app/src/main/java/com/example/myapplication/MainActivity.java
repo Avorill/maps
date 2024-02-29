@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
@@ -26,13 +27,18 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.firestore.DocumentReference;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Transaction;
 
 
 import java.util.ArrayList;
@@ -78,7 +84,6 @@ public class MainActivity extends AppCompatActivity  {
     private String userId;
     FirebaseAuth auth;
     int route_count;
-
 
 
     @SuppressLint("SetTextI18n")
@@ -158,40 +163,96 @@ public class MainActivity extends AppCompatActivity  {
                 Map<String, Object> loc = new HashMap<>();
                 savedLocations = myApp.getMyLocations();
                 DocumentReference dr = fdb.collection("users").document(userId);
-                dr.update("route_count", FieldValue.increment(1));
-                dr.addSnapshotListener(this, (value, error) -> {
-                    if (value != null) {
-                        route_count = value.get("route_count", Integer.TYPE);
-                        Log.d(TAG, " route_count was gotten and incremented");
+//                dr.addSnapshotListener(this, (value, error) -> {
+//                    if (value != null) {
+//                        route_count = value.get("route_count", Integer.TYPE);
+//                        dr.update("route_count", FieldValue.increment(1));
+//                        Log.d(TAG, " route_count was gotten and incremented");
+//
+//                    }
+//                });
 
+                fdb.runTransaction(new Transaction.Function<Void>() {
+
+                    @Nullable
+                    @Override
+                    public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                        DocumentSnapshot snapshot = transaction.get(dr);
+                        route_count = snapshot.get("route_count",Integer.TYPE);
+                        Log.d(TAG, "route_count was gotten");
+                        transaction.update(dr,"route_count", route_count + 1);
+
+                        return null;
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "Transaction success!");
+
+                        int i = 0;
+                        for (Location location : savedLocations) {
+                            Log.d(TAG,"Start writing to db");
+                            DocumentReference documentReference = fdb.collection("routes")
+                                    .document(userId).collection("journey" + route_count).document("loc" + i);
+                            i++;
+                            loc.put("lat", location.getLatitude());
+                            loc.put("lon", location.getLongitude());
+                            loc.put("time", location.getTime());
+                            documentReference.set(loc)
+                                    .addOnSuccessListener(unu -> {
+                                        Log.d(TAG, " success add location");
+                                        Toast.makeText(MainActivity.this, "Upload to db successful",
+                                                Toast.LENGTH_SHORT).show();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.w(TAG, "failure in: " + e.getMessage());
+                                        Toast.makeText(MainActivity.this, "Upload to db failed",
+                                                Toast.LENGTH_SHORT).show();
+                                    });
+                        }
+
+                        stopLocationUpdates();
+                        myApp.setMyLocations(new ArrayList<>());
+                        savedLocations = myApp.getMyLocations();
+                        tv_wayPointCounts.setText(Integer.toString(savedLocations.size()));
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Transaction failed");
                     }
                 });
 
-                int i = 0;
-                for (Location location : savedLocations) {
-                    DocumentReference documentReference = fdb.collection("routes")
-                            .document(userId).collection("journey" + route_count).document("loc" + i);
-                    i++;
-                    loc.put("lat", location.getLatitude());
-                    loc.put("lon", location.getLongitude());
-                    loc.put("time", location.getTime());
-                    documentReference.set(loc)
-                            .addOnSuccessListener(unused -> {
-                                Log.d(TAG, " success add location");
-                                Toast.makeText(this, "Upload to db successful",
-                                        Toast.LENGTH_SHORT).show();
-                            })
-                            .addOnFailureListener(e -> {
-                                Log.w(TAG, "failure in: " + e.getMessage());
-                                Toast.makeText(this, "Upload to db failed",
-                                        Toast.LENGTH_SHORT).show();
-                            });
-                }
 
-                stopLocationUpdates();
-                myApp.setMyLocations(new ArrayList<>());
-                savedLocations = myApp.getMyLocations();
-                tv_wayPointCounts.setText(Integer.toString(savedLocations.size()));
+
+
+
+//                int i = 0;
+//                for (Location location : savedLocations) {
+//                    Log.d(TAG,"Start writing to db");
+//                    DocumentReference documentReference = fdb.collection("routes")
+//                            .document(userId).collection("journey" + route_count).document("loc" + i);
+//                    i++;
+//                    loc.put("lat", location.getLatitude());
+//                    loc.put("lon", location.getLongitude());
+//                    loc.put("time", location.getTime());
+//                    documentReference.set(loc)
+//                            .addOnSuccessListener(unused -> {
+//                                Log.d(TAG, " success add location");
+//                                Toast.makeText(this, "Upload to db successful",
+//                                        Toast.LENGTH_SHORT).show();
+//                            })
+//                            .addOnFailureListener(e -> {
+//                                Log.w(TAG, "failure in: " + e.getMessage());
+//                                Toast.makeText(this, "Upload to db failed",
+//                                        Toast.LENGTH_SHORT).show();
+//                            });
+//                }
+
+//                stopLocationUpdates();
+//                myApp.setMyLocations(new ArrayList<>());
+//                savedLocations = myApp.getMyLocations();
+//                tv_wayPointCounts.setText(Integer.toString(savedLocations.size()));
 //                updateUIvalues(null);
 //                stopLocationUpdates();
             }
@@ -216,6 +277,7 @@ public class MainActivity extends AppCompatActivity  {
                 tv_sensor.setText("Using Tower + WIFI");
             }
         });
+
         sw_locationupdates.setOnClickListener(v -> {
             if (sw_locationupdates.isChecked()) {
                 //turn on location tracking
