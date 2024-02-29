@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.example.myapplication.databinding.ActivityLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,55 +45,49 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         //databaseHelper = new DatabaseHelper(this);
         MyApp myApp = (MyApp) getApplicationContext();
-        binding.loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.loginProgressBar.setVisibility(View.VISIBLE);
+        binding.loginButton.setOnClickListener(v -> {
+            binding.loginProgressBar.setVisibility(View.VISIBLE);
 
-                String email = binding.loginEmail.getText().toString();
-                String password = binding.loginPassword.getText().toString();
+            String email = binding.loginEmail.getText().toString();
+            String password = binding.loginPassword.getText().toString();
 
-                if(email.equals("") || password.equals("")){
-                    Toast.makeText(LoginActivity.this,"All fields are mandatory",
-                            Toast.LENGTH_SHORT).show();
+            if(email.equals("") || password.equals("")){
+                Toast.makeText(LoginActivity.this,"All fields are mandatory",
+                        Toast.LENGTH_SHORT).show();
 
-                }
-                else {
-                    mAuth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    binding.loginProgressBar.setVisibility(View.GONE);
-                                    if (task.isSuccessful()) {
+            }
+            else {
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                binding.loginProgressBar.setVisibility(View.GONE);
+                                if (task.isSuccessful()) {
 
-                                        Log.d(TAG, "signInWithEmail:success");
-                                        Toast.makeText(LoginActivity.this, "Login successful",
-                                                Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                        myApp.onCreate();
-                                        startActivity( intent );
-                                        finish();
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                        Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
+                                    Log.d(TAG, "signInWithEmail:success");
+                                    Toast.makeText(LoginActivity.this, "Login successful",
+                                            Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    myApp.onCreate();
+                                    startActivity( intent );
+                                    finish();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                    Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
                                 }
-                            });
+                            }
+                        });
 
 
-                }
             }
         });
 
-        binding.signupRedirectText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class );
-                startActivity( intent );
-                finish();
-            }
+        binding.signupRedirectText.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class );
+            startActivity( intent );
+            finish();
         });
     }
 

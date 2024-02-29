@@ -17,13 +17,6 @@ public class MyApp  extends Application {
         this.myLocations = myLocations;
     }
 
-//    public void renewMyApp(){
-//       singleton = this;
-//       myLocations = new ArrayList<>();
-//    }
-
-    private boolean stopAndSave = false;
-
     private List<Location> myLocations;
     public MyApp getInstance() {
         return singleton;

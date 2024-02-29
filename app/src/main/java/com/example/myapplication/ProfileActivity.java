@@ -19,7 +19,6 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -27,27 +26,22 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     private FirebaseAuth auth;
-    FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
-        @Override
-        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+    FirebaseAuth.AuthStateListener authStateListener = firebaseAuth -> {
 
-            if(firebaseAuth.getCurrentUser() == null){
-                Log.d(TAG,"Sign out");
-                Toast.makeText(ProfileActivity.this, "Sign Out Successfully",
-                       Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+        if(firebaseAuth.getCurrentUser() == null){
+            Log.d(TAG,"Sign out");
+            Toast.makeText(ProfileActivity.this, "Sign Out Successfully",
+                   Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
 //            } else {
 //                Log.w(TAG,"Sign out failed");
 //                Toast.makeText(ProfileActivity.this, "Sign Out Failed",
 //                        Toast.LENGTH_SHORT).show();
-            }
-
         }
+
     };
-    private FirebaseFirestore fdb;
-    private String userID;
     private ActivityProfileBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +49,9 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        fdb = FirebaseFirestore.getInstance();
+        FirebaseFirestore fdb = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        userID = auth.getCurrentUser().getUid();
-        MyApp myApp = (MyApp) getApplicationContext();
+        String userID = auth.getCurrentUser().getUid();
 
 
         if(auth.getCurrentUser() == null){
@@ -68,25 +61,19 @@ public class ProfileActivity extends AppCompatActivity {
         } else {
             if(auth.getCurrentUser() != null) {
                 DocumentReference documentReference = fdb.collection("users").document(userID);
-                documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if(value != null) {
-                            binding.profileName.setText(value.getString("nickname"));
-                            binding.profileEmail.setText(value.getString("email"));
-                        }
+                documentReference.addSnapshotListener(this, (value, error) -> {
+                    if(value != null) {
+                        binding.profileName.setText(value.getString("nickname"));
+                        binding.profileEmail.setText(value.getString("email"));
                     }
                 });
             }
         }
 
-        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                auth.addAuthStateListener(authStateListener);
-                auth.signOut();
+        binding.btnLogout.setOnClickListener(v -> {
+            auth.addAuthStateListener(authStateListener);
+            auth.signOut();
 
-            }
         });
 
 
