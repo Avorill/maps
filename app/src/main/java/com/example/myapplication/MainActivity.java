@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity  {
     private static final int PERMISSION_FINE_LOCATION = 99;
     TextView tv_lat, tv_lon, tv_altitude, tv_accuracy, tv_speed, tv_address, tv_updates, tv_sensor,
     tv_wayPointCounts, address_line;
-    Button btn_newWayPoint, btn_showWayPointList, btn_showMap, btn_showProfile, btn_stop_and_save_trip;
+    Button  btn_showWayPointList, btn_showMap, btn_showProfile, btn_stop_and_save_trip;
     SwitchCompat sw_locationupdates, sw_gps;
 
 
@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity  {
         tv_updates = findViewById(R.id.tv_updates);
         sw_locationupdates = findViewById(R.id.sw_locationsupdates);
         sw_gps = findViewById(R.id.sw_gps);
-        btn_newWayPoint = findViewById(R.id.btn_newWayPoint);
         btn_showWayPointList= findViewById(R.id.btn_showWayPointList);
         tv_wayPointCounts = findViewById(R.id.tv_countOfCrumbs);
         btn_showMap = findViewById(R.id.btn_showMap);
@@ -132,14 +131,14 @@ public class MainActivity extends AppCompatActivity  {
 
             }
         };
-        btn_newWayPoint.setOnClickListener(v -> {
-            //get the gps location
-
-            //add location to a global list
-
-            savedLocations = myApp.getMyLocations();
-            savedLocations.add(currentLocation);
-        });
+//        btn_newWayPoint.setOnClickListener(v -> {
+//            //get the gps location
+//
+//            //add location to a global list
+//
+//            savedLocations = myApp.getMyLocations();
+//            savedLocations.add(currentLocation);
+//        });
 
 
         btn_showWayPointList.setOnClickListener(v -> {

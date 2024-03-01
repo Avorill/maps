@@ -16,4 +16,7 @@
     <style name="Theme.MyApplication.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.MyApplication.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Base.Widget.AppCompat.Button." parent="Widget.MaterialComponents.Button">
+        <item name="background">@drawable/custom_button_background</item>
+    </style>
 </resources>

@@ -36,9 +36,9 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/green_border"
-                android:drawableLeft="@drawable/baseline_account_circle_24"
+                android:drawableStart="@drawable/baseline_account_circle_24"
                 android:drawablePadding="8dp"
-                android:hint="Nickname"
+                android:hint="@string/nickname"
                 android:padding="8dp" />
 
             <EditText
@@ -47,9 +47,9 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/green_border"
-                android:drawableLeft="@drawable/baseline_email_24"
+                android:drawableStart="@drawable/baseline_email_24"
                 android:drawablePadding="8dp"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:padding="8dp" />
 
             <EditText
@@ -58,9 +58,9 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/green_border"
-                android:drawableLeft="@drawable/baseline_lock_24"
+                android:drawableStart="@drawable/baseline_lock_24"
                 android:drawablePadding="8dp"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 android:padding="8dp" />
 
@@ -70,9 +70,9 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/green_border"
-                android:drawableLeft="@drawable/baseline_lock_24"
+                android:drawableStart="@drawable/baseline_lock_24"
                 android:drawablePadding="8dp"
-                android:hint="Confirm Password"
+                android:hint="@string/confirm_password"
                 android:inputType="textPassword"
                 android:padding="8dp" />
 
@@ -81,7 +81,7 @@
                 android:layout_width="350dp"
                 android:layout_height="70dp"
                 android:layout_marginTop="30dp"
-                android:text="Sign Up"
+                android:text="@string/sign_up"
                 android:textSize="18sp"
                 app:cornerRadius="30dp" />
 
@@ -93,7 +93,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:padding="8dp"
-                android:text="Already sign Up ? Login"
+                android:text="@string/already_sign_up_login"
                 android:textColor="@color/light_green"
                 android:textSize="18sp" />
 

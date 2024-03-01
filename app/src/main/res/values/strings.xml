@@ -44,4 +44,10 @@
     <string name="stop_and_save_trip">Stop and save trip</string>
     <string name="sign_out">Sign out</string>
     <string name="your_profile">Your Profile</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_sign_up_login">Already sign Up ? Login</string>
+    <string name="nickname">Nickname</string>
+    <string name="email">Email</string>
 </resources>
