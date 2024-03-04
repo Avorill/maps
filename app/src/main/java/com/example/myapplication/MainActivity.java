@@ -33,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.google.firebase.firestore.Transaction;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class MainActivity extends AppCompatActivity  {
     public static final long DEFAULT_UPDATE_INTERVAL = 30;
@@ -131,28 +133,24 @@ public class MainActivity extends AppCompatActivity  {
 
             }
         };
-//        btn_newWayPoint.setOnClickListener(v -> {
-//            //get the gps location
-//
-//            //add location to a global list
-//
-//            savedLocations = myApp.getMyLocations();
-//            savedLocations.add(currentLocation);
-//        });
+
 
 
         btn_showWayPointList.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this,ShowSavedLoctionsList.class);
             startActivity(i);
         });
+
         btn_showMap.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(i);
         });
+
         btn_showProfile.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, ProfileActivity.class);
             startActivity(i);
         });
+
         btn_stop_and_save_trip.setOnClickListener(v -> {
             if(savedLocations.size() != 0) {
                 auth = FirebaseAuth.getInstance();
@@ -160,8 +158,8 @@ public class MainActivity extends AppCompatActivity  {
                 userId = auth.getCurrentUser().getUid();
                 Map<String, Object> loc = new HashMap<>();
                 savedLocations = myApp.getMyLocations();
+                final long[] starting = {0};
                 DocumentReference dr = fdb.collection("users").document(userId);
-
                 fdb.runTransaction((Transaction.Function<Void>) transaction -> {
                     DocumentSnapshot snapshot = transaction.get(dr);
                     route_count = snapshot.get("route_count",Integer.TYPE);
@@ -171,12 +169,34 @@ public class MainActivity extends AppCompatActivity  {
                     return null;
                 }).addOnSuccessListener(unused -> {
                     Log.d(TAG, "Transaction success!");
+                    DocumentReference dr_names = fdb.collection("routes")
+                            .document(userId);
+
+                    dr_names.update("names", FieldValue.arrayUnion("journey" + route_count));
+
 
                     int i = 0;
                     for (Location location : savedLocations) {
                         Log.d(TAG,"Start writing to db");
                         DocumentReference documentReference = fdb.collection("routes")
                                 .document(userId).collection("journey" + route_count).document("loc" + i);
+                        if(i == 0) {
+                            DocumentReference dr_start_time = fdb.collection("routes")
+                                    .document(userId).collection("journey" + route_count)
+                                    .document("start_time");
+                            Map<String, Object> start_time = new HashMap<>();
+                            start_time.put("start", location.getTime());
+                            starting[0] = location.getTime();
+                            dr_start_time.set(start_time);
+                        }
+                        if(i == savedLocations.size()-1) {
+                            DocumentReference dr_duration = fdb.collection("routes")
+                                    .document(userId).collection("journey" + route_count)
+                                    .document("duration");
+                            Map<String, Object> duration = new HashMap<>();
+                            duration.put("duration", location.getTime() - starting[0]);
+                            dr_duration.set(duration);
+                        }
                         i++;
                         loc.put("lat", location.getLatitude());
                         loc.put("lon", location.getLongitude());
@@ -193,6 +213,8 @@ public class MainActivity extends AppCompatActivity  {
                                             Toast.LENGTH_SHORT).show();
                                 });
                     }
+
+
 
                     stopLocationUpdates();
                     myApp.setMyLocations(new ArrayList<>());

@@ -65,6 +65,7 @@
         android:text="@string/_0_00"
         app:layout_constraintStart_toEndOf="@+id/tv_labelaltitude"
         app:layout_constraintTop_toTopOf="@+id/tv_labelaltitude" />
+
     <TextView
         android:id="@+id/tv_address"
         android:layout_width="wrap_content"
@@ -81,6 +82,19 @@
         android:text="@string/address"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_labelspeed" />
+    <TextView
+        android:id="@+id/address_line"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:scrollHorizontally="true"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toEndOf="@+id/tv_lbladdress"
+        app:layout_constraintTop_toBottomOf="@+id/tv_speed" />
 
     <TextView
         android:id="@+id/tv_labelaccuracy"
@@ -138,6 +152,7 @@
         android:id="@+id/tv_sensor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:text="@string/cell_tower_wifi"
         app:layout_constraintStart_toEndOf="@+id/tv_labelsensor"
         app:layout_constraintTop_toTopOf="@+id/tv_labelsensor" />
@@ -155,6 +170,7 @@
         android:id="@+id/tv_updates"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:text="@string/off"
         app:layout_constraintStart_toEndOf="@+id/tv_labelupdates"
         app:layout_constraintTop_toTopOf="@+id/tv_labelupdates" />
@@ -172,20 +188,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
+
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/sw_gps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:minHeight="48dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:minHeight="48dp"
         android:text="@string/savepower_gps"
-        app:switchPadding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_labelupdates" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/tv_labelupdates"
+        app:switchPadding="5dp" />
 
     <View
         android:id="@+id/divider"
@@ -210,7 +226,7 @@
         android:id="@+id/tv_countOfCrumbs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="36dp"
         android:text="@string/_0_00"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/textView" />
@@ -280,25 +296,13 @@
         android:alpha="0.9"
         android:layout_marginEnd="8dp"
         android:background="@drawable/custom_button_background"
-        android:text="Explore"
+        android:text="@string/explore"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_stop_and_save_trip" />
 
-    <TextView
-        android:id="@+id/address_line"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:scrollHorizontally="true"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toEndOf="@+id/tv_lbladdress"
-        app:layout_constraintTop_toBottomOf="@+id/tv_speed" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

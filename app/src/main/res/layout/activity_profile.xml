@@ -124,7 +124,7 @@
         app:strokeColor="#DDC9C9" />
 
     <Button
-        android:id="@+id/show_routes"
+        android:id="@+id/btn_show_routes"
         style="@style/Widget.Material3.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

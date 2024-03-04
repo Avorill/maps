@@ -7,7 +7,7 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="title_activity_maps">MapsActivity</string>
-    <string name="show_waypoint_list">Show Waypoint list</string>
+    <string name="show_waypoint_list">Show Waypoint List</string>
     <string name="logout">Logout</string>
     <string name="title_activity_bottom_navigarion">BottomNavigarionActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -24,8 +24,8 @@
     <string name="your_email_address">Your email address</string>
     <string name="your_name">Your Name</string>
     <string name="return_to_main">Return to main</string>
-    <string name="lat">Lat:</string>
-    <string name="lon">lon:</string>
+    <string name="lat">Latitude:</string>
+    <string name="lon">Longitude:</string>
     <string name="_0_00">0.00</string>
     <string name="altitude">Altitude:</string>
     <string name="accuracy">Accuracy:</string>
@@ -39,9 +39,9 @@
     <string name="address">Address:</string>
     <string name="waypoints">WayPoints</string>
     <string name="new_waypoint">New WayPoint</string>
-    <string name="show_map">Show map</string>
+    <string name="show_map">Show Map</string>
     <string name="profile_page">Profile Page</string>
-    <string name="stop_and_save_trip">Stop and save trip</string>
+    <string name="stop_and_save_trip">Stop and Save Trip</string>
     <string name="sign_out">Sign out</string>
     <string name="your_profile">Your Profile</string>
     <string name="sign_up">Sign Up</string>
@@ -50,4 +50,5 @@
     <string name="already_sign_up_login">Already sign Up ? Login</string>
     <string name="nickname">Nickname</string>
     <string name="email">Email</string>
+    <string name="explore">Explore</string>
 </resources>

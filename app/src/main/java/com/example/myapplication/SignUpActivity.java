@@ -81,6 +81,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         .document(userID);
                                 Map<String, Object> user = new HashMap<>();
                                 user.put("nickname",nickname);
+
                                 user.put("email",email);
                                 user.put("route_count", 0);
                                 documentReference.set(user)
