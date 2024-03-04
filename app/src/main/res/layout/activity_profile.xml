@@ -78,7 +78,7 @@
         app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintStart_toStartOf="@+id/backgroundView"
         app:layout_constraintTop_toTopOf="parent"
-         />
+       />
 
     <TextView
         android:id="@+id/profileName"

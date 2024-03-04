@@ -32,7 +32,7 @@
 
             <EditText
                 android:id="@+id/signup_nickname"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/green_border"
@@ -43,18 +43,20 @@
 
             <EditText
                 android:id="@+id/signup_email"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
+                android:autofillHints="example@gmail.com"
                 android:background="@drawable/green_border"
                 android:drawableStart="@drawable/baseline_email_24"
                 android:drawablePadding="8dp"
                 android:hint="@string/email"
+                android:inputType="textEmailAddress"
                 android:padding="8dp" />
 
             <EditText
                 android:id="@+id/signup_password"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/green_border"
@@ -66,7 +68,7 @@
 
             <EditText
                 android:id="@+id/signup_confirm"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/green_border"
@@ -78,7 +80,7 @@
 
             <Button
                 android:id="@+id/signup_button"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginTop="30dp"
                 android:text="@string/sign_up"

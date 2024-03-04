@@ -30,6 +30,7 @@ import com.google.android.gms.location.Priority;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -43,7 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
+
 
 public class MainActivity extends AppCompatActivity  {
     public static final long DEFAULT_UPDATE_INTERVAL = 30;
@@ -156,7 +157,9 @@ public class MainActivity extends AppCompatActivity  {
                 auth = FirebaseAuth.getInstance();
                 fdb = FirebaseFirestore.getInstance();
                 userId = auth.getCurrentUser().getUid();
-                Map<String, Object> loc = new HashMap<>();
+//                Map<String, Object> loc = new HashMap<>();
+
+
                 savedLocations = myApp.getMyLocations();
                 final long[] starting = {0};
                 DocumentReference dr = fdb.collection("users").document(userId);
@@ -171,49 +174,76 @@ public class MainActivity extends AppCompatActivity  {
                     Log.d(TAG, "Transaction success!");
                     DocumentReference dr_names = fdb.collection("routes")
                             .document(userId);
-
                     dr_names.update("names", FieldValue.arrayUnion("journey" + route_count));
 
 
                     int i = 0;
+                    Route route = new Route("journey" + route_count);
+                    List<GPSLocation> gpsLocations = new ArrayList<>();
+                    CollectionReference testRef = fdb.collection("routes")
+                            .document(userId).collection("journeys");
                     for (Location location : savedLocations) {
                         Log.d(TAG,"Start writing to db");
-                        DocumentReference documentReference = fdb.collection("routes")
-                                .document(userId).collection("journey" + route_count).document("loc" + i);
+//                        DocumentReference documentReference = fdb.collection("routes")
+//                                .document(userId).collection("journey" + route_count).document("loc" + i);
+
+
+
+
+
                         if(i == 0) {
-                            DocumentReference dr_start_time = fdb.collection("routes")
-                                    .document(userId).collection("journey" + route_count)
-                                    .document("start_time");
-                            Map<String, Object> start_time = new HashMap<>();
-                            start_time.put("start", location.getTime());
+//                            DocumentReference dr_start_time = fdb.collection("routes")
+//                                    .document(userId).collection("journey" + route_count)
+//                                    .document("start_time");
+//                            Map<String, Object> start_time = new HashMap<>();
+//                            start_time.put("start", location.getTime());
                             starting[0] = location.getTime();
-                            dr_start_time.set(start_time);
+//                            dr_start_time.set(start_time);
+                            route.setStart_date(starting[0]);
+
                         }
                         if(i == savedLocations.size()-1) {
-                            DocumentReference dr_duration = fdb.collection("routes")
-                                    .document(userId).collection("journey" + route_count)
-                                    .document("duration");
-                            Map<String, Object> duration = new HashMap<>();
-                            duration.put("duration", location.getTime() - starting[0]);
-                            dr_duration.set(duration);
+//                            DocumentReference dr_duration = fdb.collection("routes")
+//                                    .document(userId).collection("journey" + route_count)
+//                                    .document("duration");
+//                            Map<String, Object> duration = new HashMap<>();
+//                            duration.put("duration", location.getTime() - starting[0]);
+//                            dr_duration.set(duration);
+                            route.setDuration(location.getTime() - starting[0]);
                         }
                         i++;
-                        loc.put("lat", location.getLatitude());
-                        loc.put("lon", location.getLongitude());
-                        loc.put("time", location.getTime());
-                        documentReference.set(loc)
-                                .addOnSuccessListener(unu -> {
-                                    Log.d(TAG, " success add location");
-                                    Toast.makeText(MainActivity.this, "Upload to db successful",
-                                            Toast.LENGTH_SHORT).show();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Log.w(TAG, "failure in: " + e.getMessage());
-                                    Toast.makeText(MainActivity.this, "Upload to db failed",
-                                            Toast.LENGTH_SHORT).show();
-                                });
-                    }
 
+                        gpsLocations.add(new GPSLocation(location.getLatitude(), location.getLongitude(),
+                                location.getTime(), location.getAltitude()));
+
+//                        loc.put("lat", location.getLatitude());
+//                        loc.put("lon", location.getLongitude());
+//                        loc.put("time", location.getTime());
+
+
+//                        documentReference.set(loc)
+//                                .addOnSuccessListener(unu -> {
+//                                    Log.d(TAG, " success add location");
+//                                    Toast.makeText(MainActivity.this, "Upload to db successful",
+//                                            Toast.LENGTH_SHORT).show();
+//                                })
+//                                .addOnFailureListener(e -> {
+//                                    Log.w(TAG, "failure in: " + e.getMessage());
+//                                    Toast.makeText(MainActivity.this, "Upload to db failed",
+//                                            Toast.LENGTH_SHORT).show();
+//                                });
+
+                    }
+                    route.setLocations((ArrayList<GPSLocation>) gpsLocations);
+                    testRef.add(route).addOnSuccessListener(unu ->{
+                        Log.d(TAG, " success add location (test)");
+                        Toast.makeText(MainActivity.this, "Upload to db successful",
+                                Toast.LENGTH_SHORT).show();
+                    }).addOnFailureListener(e -> {
+                        Log.w(TAG, "failure (test) in: " + e.getMessage());
+                        Toast.makeText(MainActivity.this, "Upload to db failed",
+                                Toast.LENGTH_SHORT).show();
+                    });
 
 
                     stopLocationUpdates();
@@ -226,8 +256,8 @@ public class MainActivity extends AppCompatActivity  {
                 }).addOnFailureListener(e -> {
                     Log.w(TAG, "Transaction failed");
                     stopLocationUpdates();
-                    myApp.setMyLocations(new ArrayList<>());
-                    savedLocations = myApp.getMyLocations();
+//                    myApp.setMyLocations(new ArrayList<>());
+//                    savedLocations = myApp.getMyLocations();
                     tv_wayPointCounts.setText(Integer.toString(savedLocations.size()));
                 });
                 stopLocationUpdates();

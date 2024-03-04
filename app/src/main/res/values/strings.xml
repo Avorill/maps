@@ -51,4 +51,6 @@
     <string name="nickname">Nickname</string>
     <string name="email">Email</string>
     <string name="explore">Explore</string>
+    <string name="set_profile_picture">Set Profile Picture</string>
+    <string name="edit_your_interests">Edit your interests</string>
 </resources>
