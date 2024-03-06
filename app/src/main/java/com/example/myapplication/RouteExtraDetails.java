@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 
-import java.util.ArrayList;
 
 public class RouteExtraDetails extends AppCompatActivity {
 
@@ -31,7 +30,5 @@ public class RouteExtraDetails extends AppCompatActivity {
         distanceText.setText(String.valueOf(distance));
         startDateText.setText(startDate);
 
-
-        ArrayList<GPSLocation> locations = new ArrayList<GPSLocation>();
     }
 }

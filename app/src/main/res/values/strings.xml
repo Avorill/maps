@@ -63,4 +63,8 @@
     <string name="share">Share</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="login">Login</string>
+    <string name="not_yet_register_sign_up">Not yet register? Sign Up</string>
+    <string name="image">Image</string>
+    <string name="clear_way_points">Clear Way Points</string>
 </resources>

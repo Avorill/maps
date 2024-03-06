@@ -53,7 +53,7 @@ public class ShowRoutesActivity extends AppCompatActivity implements RecycleView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerView.setHasFixedSize(true);
-        routeArrayList = new ArrayList<Route>();
+        routeArrayList = new ArrayList<>();
         myAdapter = new MyAdapter(routeArrayList, ShowRoutesActivity.this, this);
         recyclerView.setAdapter(myAdapter);
 
@@ -70,28 +70,25 @@ public class ShowRoutesActivity extends AppCompatActivity implements RecycleView
 
     private void EventChangeListener() {
         fdb.collection("routes").document(userId).collection("journeys").orderBy("name", Query.Direction.ASCENDING)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if(error != null){
-                            Log.e(TAG, error.getMessage());
+                .addSnapshotListener((value, error) -> {
+                    if(error != null){
+                        Log.e(TAG, error.getMessage());
 
-                            return;
+                        return;
+                    }
+
+                    for(DocumentChange change : value.getDocumentChanges()){
+
+                        if(change.getType() == DocumentChange.Type.ADDED){
+                            routeArrayList.add(change.getDocument().toObject(Route.class));
                         }
 
-                        for(DocumentChange change : value.getDocumentChanges()){
-
-                            if(change.getType() == DocumentChange.Type.ADDED){
-                                routeArrayList.add(change.getDocument().toObject(Route.class));
-                            }
-
-                            myAdapter.notifyDataSetChanged();
-
-                        }
-
-
+                        myAdapter.notifyDataSetChanged();
 
                     }
+
+
+
                 });
 
 

@@ -72,15 +72,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             start_date = itemView.findViewById(R.id.trip_date);
             duration = itemView.findViewById(R.id.trip_duration);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(recycleViewInterface != null){
-                        int position = getAdapterPosition();
+            itemView.setOnClickListener(v -> {
+                if(recycleViewInterface != null){
+                    int position = getAdapterPosition();
 
-                        if(position != RecyclerView.NO_POSITION){
-                            recycleViewInterface.onItemClick(position);
-                        }
+                    if(position != RecyclerView.NO_POSITION){
+                        recycleViewInterface.onItemClick(position);
                     }
                 }
             });

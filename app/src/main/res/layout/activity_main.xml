@@ -236,7 +236,8 @@ android:background="@drawable/background_main">
             android:layout_marginEnd="4dp"
             android:alpha="0.9"
             android:background="@drawable/custom_button_background"
-            android:text="@string/show_map" />
+            android:text="@string/show_map"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/btn_showProfile"
@@ -246,7 +247,8 @@ android:background="@drawable/background_main">
             android:layout_marginEnd="8dp"
             android:alpha="0.9"
             android:background="@drawable/custom_button_background"
-            android:text="@string/profile_page" />
+            android:text="@string/profile_page"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/btn_stop_and_save_trip"
@@ -257,7 +259,8 @@ android:background="@drawable/background_main">
             android:layout_marginEnd="16dp"
             android:alpha="0.9"
             android:background="@drawable/custom_button_background"
-            android:text="@string/stop_and_save_trip" />
+            android:text="@string/stop_and_save_trip"
+            tools:ignore="ButtonStyle" />
 
     </LinearLayout>
 
@@ -285,8 +288,8 @@ android:background="@drawable/background_main">
         android:layout_marginBottom="4dp"
         android:alpha="0.7"
         android:background="@drawable/custom_button_background"
-        android:text="Clear way points"
-        android:textSize="10sp"
+        android:text="@string/clear_way_points"
+        android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="@+id/backgroundTestView2"
         app:layout_constraintStart_toStartOf="@+id/backgroundTestView2"
         app:layout_constraintTop_toBottomOf="@+id/textView"

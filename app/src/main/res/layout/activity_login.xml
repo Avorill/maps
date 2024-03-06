@@ -13,15 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,6 +36,7 @@
                     android:drawableStart="@drawable/baseline_email_24"
                     android:drawablePadding="8dp"
                     android:hint="@string/email"
+                    android:inputType="textEmailAddress"
                     android:padding="8dp"
                     android:autofillHints="emailAddress" />
 
@@ -67,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:layout_marginTop="20dp"
-                    android:text="Login"
+                    android:text="@string/login"
                     android:textSize="18sp"
                     app:cornerRadius="30dp" />
 
@@ -78,12 +70,11 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="14dp"
                     android:padding="8dp"
-                    android:text="Not yet register? Sign Up"
+                    android:text="@string/not_yet_register_sign_up"
                     android:textSize="18sp"
                     android:textColor="@color/light_green"/>
 
             </LinearLayout>
-        </LinearLayout>
     </ScrollView>
 
 
