@@ -247,9 +247,11 @@ public class MainActivity extends AppCompatActivity  {
                     route.setLocations((ArrayList<GPSLocation>) gpsLocations);
 //                    route.setDistance();
                     testRef.add(route).addOnSuccessListener(unu ->{
-                        Log.d(TAG, " success add location (test)");
+                        Log.d(TAG, " success add location  : " );
                         Toast.makeText(MainActivity.this, "Upload to db successful",
                                 Toast.LENGTH_SHORT).show();
+
+
                     }).addOnFailureListener(e -> {
                         Log.w(TAG, "failure (test) in: " + e.getMessage());
                         Toast.makeText(MainActivity.this, "Upload to db failed",

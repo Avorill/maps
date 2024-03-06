@@ -39,6 +39,10 @@ public class GPSLocation implements Parcelable  {
     }
 
 
+
+    public GPSLocation() {
+    }
+
     public GPSLocation(double lat, double lon, long time, double alt) {
         this.lon = lon;
         this.lat = lat;

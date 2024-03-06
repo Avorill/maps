@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,20 +15,20 @@ import java.util.ArrayList;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private final RecycleViewInterface recycleViewInterface;
-    ArrayList<Route> routeList;
+    ArrayList<Pair<String, Route>> routeList;
     Context context;
 
-    public MyAdapter(ArrayList<Route> routeList, Context context, RecycleViewInterface recycleViewInterface) {
+    public MyAdapter(ArrayList<Pair<String, Route>> routeList, Context context, RecycleViewInterface recycleViewInterface) {
         this.routeList = routeList;
         this.context = context;
         this.recycleViewInterface = recycleViewInterface;
     }
 
-    public ArrayList<Route> getRouteList() {
+    public ArrayList<Pair<String, Route>> getRouteList() {
         return routeList;
     }
 
-    public void setRouteList(ArrayList<Route> routeList) {
+    public void setRouteList(ArrayList<Pair<String, Route>> routeList) {
         this.routeList = routeList;
     }
 
@@ -49,7 +50,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Route route = routeList.get(position);
+        Route route = routeList.get(position).second;
 
         holder.name.setText(route.getName());
         holder.start_date.setText(route.realStartDate());

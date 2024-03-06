@@ -64,11 +64,7 @@ public class MapsActivity extends AppCompatActivity{
         map.setUseDataConnection(false);
         IMapController mapController = map.getController();
         mapController.setZoom(12.5);
-        //GeoPoint startPoint = new GeoPoint(53.939249, 27.316127);
-//        Marker startMarker = new Marker(map);
-//        startMarker.setPosition(startPoint);
-//        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-//        map.getOverlays().add(startMarker);
+
         MyApp myApp = (MyApp)getApplicationContext();
         savedLocations = myApp.getMyLocations();
 
@@ -106,11 +102,6 @@ public class MapsActivity extends AppCompatActivity{
         //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
-      //  GeoPoint startPoint = new GeoPoint(53.939249, 27.316127);
-//        Marker startMarker = new Marker(map);
-//        startMarker.setPosition(startPoint);
-//        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-//        map.getOverlays().add(startMarker);
         MyApp myApp = (MyApp) getApplicationContext();
         savedLocations = myApp.getMyLocations();
 
