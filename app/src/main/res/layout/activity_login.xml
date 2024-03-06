@@ -42,10 +42,11 @@
                     android:layout_height="60dp"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/green_border"
-                    android:drawableLeft="@drawable/baseline_email_24"
+                    android:drawableStart="@drawable/baseline_email_24"
                     android:drawablePadding="8dp"
-                    android:hint="Email"
-                    android:padding="8dp" />
+                    android:hint="@string/email"
+                    android:padding="8dp"
+                    android:autofillHints="emailAddress" />
 
                 <EditText
                     android:id="@+id/login_password"
@@ -53,11 +54,12 @@
                     android:layout_height="60dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/green_border"
-                    android:drawableLeft="@drawable/baseline_lock_24"
+                    android:drawableStart="@drawable/baseline_lock_24"
                     android:drawablePadding="8dp"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:inputType="textPassword"
-                    android:padding="8dp" />
+                    android:padding="8dp"
+                    android:autofillHints="password" />
 
 
                 <Button

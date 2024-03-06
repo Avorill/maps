@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,10 +25,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-
-//TODO make page for all routes in user db. View like recycler list with name? duration and author labels
 //TODO add option to share and delete and rename route
-public class ShowRoutesAxtivity extends AppCompatActivity {
+public class ShowRoutesActivity extends AppCompatActivity implements RecycleViewInterface{
     RecyclerView recyclerView;
     ArrayList<Route> routeArrayList;
     FirebaseAuth auth;
@@ -52,11 +51,13 @@ public class ShowRoutesAxtivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         recyclerView.setHasFixedSize(true);
-        myAdapter = new MyAdapter(routeArrayList, ShowRoutesAxtivity.this);
+        routeArrayList = new ArrayList<Route>();
+        myAdapter = new MyAdapter(routeArrayList, ShowRoutesActivity.this, this);
         recyclerView.setAdapter(myAdapter);
 
-        routeArrayList = new ArrayList<Route>();
+
 
         recyclerView.setAdapter(myAdapter);
 
@@ -74,7 +75,7 @@ public class ShowRoutesAxtivity extends AppCompatActivity {
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         if(error != null){
                             Log.e(TAG, error.getMessage());
-                            progressBar.setVisibility(View.GONE);
+
                             return;
                         }
 
@@ -85,7 +86,7 @@ public class ShowRoutesAxtivity extends AppCompatActivity {
                             }
 
                             myAdapter.notifyDataSetChanged();
-                            progressBar.setVisibility(View.GONE);
+
                         }
 
 
@@ -97,5 +98,19 @@ public class ShowRoutesAxtivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(ShowRoutesActivity.this, RouteExtraDetails.class);
 
+
+        intent.putExtra("NAME",routeArrayList.get(position).getName());
+        intent.putExtra("LOCATIONS",routeArrayList.get(position).getLocations());
+        intent.putExtra("DISTANCE",routeArrayList.get(position).getDistance());
+        intent.putExtra("DURATION", routeArrayList.get(position).getRealDuration(routeArrayList.get(position).getDuration()));
+        intent.putExtra("START_DATE",routeArrayList.get(position).realStartDate());
+
+        startActivity(intent);
+
+
+    }
 }

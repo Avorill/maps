@@ -1,97 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="12dp"
+    android:layout_margin="16dp"
     app:cardCornerRadius="12dp"
-    android:layout_margin="16dp">
+    android:paddingBottom="5dp"
+
+    app:cardElevation="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:layout_marginTop="16dp"
-        android:orientation="vertical"
-        android:layout_margin="6dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name: "
-                android:textSize="24dp"
                 android:textColor="@color/black"
-                android:textStyle="bold"
-                />
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/trip_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="24dp"
                 android:textColor="@color/black"
-                />
-
-
+                android:textSize="24dp" />
 
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Duration: "
-                android:textSize="20dp"
                 android:textColor="@color/black"
-                android:textStyle="italic"
-                />
+                android:textSize="20dp"
+                android:textStyle="italic" />
+
             <TextView
                 android:id="@+id/trip_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="20dp"
                 android:textColor="@color/black"
-                />
-
-
+                android:textStyle="italic"
+                android:textSize="20dp" />
 
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Start Date: "
-                android:textSize="20dp"
                 android:textColor="@color/black"
-                android:textStyle="italic"
-                />
+                android:textSize="20dp"
+                android:textStyle="italic" />
+
             <TextView
                 android:id="@+id/trip_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="20dp"
+                android:textStyle="italic"
                 android:textColor="@color/black"
-                />
-
-
+                android:textSize="20dp" />
 
 
         </LinearLayout>

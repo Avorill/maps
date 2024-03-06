@@ -12,12 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+
+    private final RecycleViewInterface recycleViewInterface;
     ArrayList<Route> routeList;
     Context context;
 
-    public MyAdapter(ArrayList<Route> routeList, Context context) {
+    public MyAdapter(ArrayList<Route> routeList, Context context, RecycleViewInterface recycleViewInterface) {
         this.routeList = routeList;
         this.context = context;
+        this.recycleViewInterface = recycleViewInterface;
     }
 
     public ArrayList<Route> getRouteList() {
@@ -38,10 +41,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.routeentry, parent, false);
 
-        return new MyViewHolder(v);
+        return new MyViewHolder(v,recycleViewInterface);
     }
 
     @Override
@@ -49,8 +52,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         Route route = routeList.get(position);
 
         holder.name.setText(route.getName());
-        holder.start_date.setText(Long.toString( route.getStart_date()));
-        holder.duration.setText(Long.toString(route.getDuration()));
+        holder.start_date.setText(route.realStartDate());
+        holder.duration.setText(route.getRealDuration(route.getDuration()));
+
     }
 
     @Override
@@ -62,11 +66,25 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
        TextView name, duration, start_date;
 
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, RecycleViewInterface recycleViewInterface) {
             super(itemView);
             name = itemView.findViewById(R.id.trip_name);
             start_date = itemView.findViewById(R.id.trip_date);
             duration = itemView.findViewById(R.id.trip_duration);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(recycleViewInterface != null){
+                        int position = getAdapterPosition();
+
+                        if(position != RecyclerView.NO_POSITION){
+                            recycleViewInterface.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
         }
     }
 }

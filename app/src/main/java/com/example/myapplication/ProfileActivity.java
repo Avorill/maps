@@ -75,7 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         binding.btnShowRoutes.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, ShowRoutesAxtivity.class);
+            Intent intent = new Intent(ProfileActivity.this, ShowRoutesActivity.class);
             startActivity(intent);
             finish();
         });
