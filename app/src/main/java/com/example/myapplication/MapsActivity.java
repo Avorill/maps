@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 
 import android.widget.Button;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -22,6 +23,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +33,7 @@ public class MapsActivity extends AppCompatActivity{
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private MapView map = null;
     List<Location> savedLocations;
+    List<GeoPoint> points;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +60,15 @@ public class MapsActivity extends AppCompatActivity{
 
         requestPermissionsIfNecessary(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE });
 
+        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(MapsActivity.this, MainActivity.class);
+                startActivity(intent);
 
+                finish();
+            }
+        });
         map.setMultiTouchControls(true);
         map.setMinZoomLevel(1.0);
         map.setMaxZoomLevel(21.0);
@@ -67,9 +78,10 @@ public class MapsActivity extends AppCompatActivity{
 
         MyApp myApp = (MyApp)getApplicationContext();
         savedLocations = myApp.getMyLocations();
-
+        points = new ArrayList<>();
         for (Location location: savedLocations) {
             GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
+            points.add(point);
             Marker marker = new Marker(map);
             marker.setPosition(point);
             mapController.setCenter(point);
@@ -77,6 +89,10 @@ public class MapsActivity extends AppCompatActivity{
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
             map.getOverlays().add(marker);
         }
+        Polyline line = new Polyline();
+        line.setPoints(points);
+        map.getOverlayManager().add(line);
+
         btn_test.setOnClickListener(v -> {
             Intent i = new Intent(MapsActivity.this,MainActivity.class);
             startActivity(i);
@@ -104,15 +120,19 @@ public class MapsActivity extends AppCompatActivity{
         map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
         MyApp myApp = (MyApp) getApplicationContext();
         savedLocations = myApp.getMyLocations();
-
+        points = new ArrayList<>();
         for (Location location : savedLocations) {
             GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
+            points.add(point);
             Marker marker = new Marker(map);
             marker.setPosition(point);
             marker.setTitle("Lat: " + location.getLatitude() + "; Lon: " + location.getLongitude());
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
             map.getOverlays().add(marker);
         }
+        Polyline line = new Polyline();
+        line.setPoints(points);
+        map.getOverlayManager().add(line);
     }
 
     @Override
