@@ -203,8 +203,8 @@ android:background="@drawable/background_main">
 
     <View
         android:id="@+id/buttonViewMain"
-        android:layout_width="374dp"
-        android:layout_height="191dp"
+        android:layout_width="378dp"
+        android:layout_height="224dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
@@ -278,6 +278,23 @@ android:background="@drawable/background_main">
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/buttonViewMain"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <Button
+        android:id="@+id/btn_shared_routes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:alpha="0.9"
+        android:background="@drawable/custom_button_background"
+        android:text="Explore routes"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonViewMain"
+        app:layout_constraintEnd_toEndOf="@+id/buttonViewMain"
+        app:layout_constraintHorizontal_bias="0.005"
+        app:layout_constraintStart_toStartOf="@+id/buttonViewMain"
+        app:layout_constraintTop_toBottomOf="@+id/btn_showWayPointList" />
 
     <Button
         android:id="@+id/btn_clear"
