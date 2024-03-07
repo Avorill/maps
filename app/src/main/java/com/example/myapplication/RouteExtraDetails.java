@@ -2,11 +2,13 @@ package com.example.myapplication;
 
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import static android.content.ContentValues.TAG;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +21,8 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.AggregateQuery;
 import com.google.firebase.firestore.AggregateQuerySnapshot;
@@ -28,6 +32,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -79,6 +84,38 @@ public class RouteExtraDetails extends AppCompatActivity {
                 finish();
             }
         });
+
+        deleteButton.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(RouteExtraDetails.this);
+
+            builder.setMessage(R.string.want_to_delete_this_route)
+                    .setPositiveButton("Yes", (dialog, which) -> fdb.collection("routes").document(userId).collection("journeys")
+                            .document(routeId).delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Log.d(TAG, "Delete from db is successfull");
+                                    Toast.makeText(RouteExtraDetails.this, "Route was deleted", Toast.LENGTH_SHORT);
+                                    Intent intent = new Intent(RouteExtraDetails.this, ShowRoutesActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Exception in deletiting route");
+                                    Toast.makeText(RouteExtraDetails.this, "Something went wrong", Toast.LENGTH_SHORT);
+                                }
+                            }))
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        });
+
+
         editButton.setOnClickListener(v -> {
            AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -129,6 +166,16 @@ public class RouteExtraDetails extends AppCompatActivity {
             dialog.show();
 
         });
+
+        showMapButton.setOnClickListener(v -> {
+            Intent intent = new Intent(RouteExtraDetails.this, RouteShowOnMapHistory.class);
+            intent.putExtra("LOCATIONS", (Serializable) locations);
+            intent.putExtra("ID", routeId);
+            startActivity(intent);
+            finish();
+
+        }
+        );
 
     }
 }
