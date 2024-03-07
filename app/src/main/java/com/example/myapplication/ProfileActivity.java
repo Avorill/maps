@@ -33,10 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
-//            } else {
-//                Log.w(TAG,"Sign out failed");
-//                Toast.makeText(ProfileActivity.this, "Sign Out Failed",
-//                        Toast.LENGTH_SHORT).show();
+
         }
 
     };
@@ -76,6 +73,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         binding.btnShowRoutes.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, ShowRoutesActivity.class);
+            startActivity(intent);
+            finish();
+        });
+        binding.btnEditProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, AdditionalInfoActivity.class);
             startActivity(intent);
             finish();
         });

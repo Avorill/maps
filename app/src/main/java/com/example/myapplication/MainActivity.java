@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Transaction;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -142,7 +144,11 @@ public class MainActivity extends AppCompatActivity  {
         });
 
         btn_showMap.setOnClickListener(v -> {
+
+            List<Location> saved = new ArrayList<>();
+            saved = myApp.getMyLocations();
             Intent i = new Intent(MainActivity.this, MapsActivity.class);
+            i.putExtra("LOCATIONS", (Serializable) saved);
             startActivity(i);
         });
 
@@ -163,7 +169,6 @@ public class MainActivity extends AppCompatActivity  {
                 auth = FirebaseAuth.getInstance();
                 fdb = FirebaseFirestore.getInstance();
                 userId = auth.getCurrentUser().getUid();
-//                Map<String, Object> loc = new HashMap<>();
 
 
                 savedLocations = myApp.getMyLocations();
