@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/town"
+    tools:context=".ProfileActivity">
+
+    <View
+        android:id="@+id/backgroundView"
+        android:layout_width="371dp"
+        android:layout_height="236dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.8"
+        android:background="@drawable/rounded_background"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_your_profile"
+        app:layout_constraintVertical_bias="0.863" />
+
+
+    <View
+        android:id="@+id/backgroundViewBtn"
+        android:layout_width="382dp"
+        android:layout_height="287dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.5"
+        android:background="@drawable/rounded_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backgroundView" />
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="256dp"
+        android:text="@string/sign_out"
+        app:layout_constraintBottom_toBottomOf="@+id/backgroundViewBtn"
+        app:layout_constraintEnd_toEndOf="@+id/backgroundViewBtn"
+        app:layout_constraintHorizontal_bias="0.095"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.181" />
+
+    <TextView
+        android:id="@+id/text_your_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="76dp"
+        android:text="@string/your_profile"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="18sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/profileName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="137dp"
+        android:layout_height="135dp"
+        android:layout_marginTop="120dp"
+        android:background="@drawable/image_background"
+        android:src="@drawable/ic_launcher_foreground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintStart_toStartOf="@+id/backgroundView"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/image"
+       />
+
+    <TextView
+        android:id="@+id/profileName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="24dp"
+        android:textSize="18sp"
+        android:text="@string/your_name"
+        app:layout_constraintBottom_toTopOf="@+id/profile_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView2" />
+
+    <TextView
+        android:id="@+id/profile_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="18sp"
+        android:text="@string/your_email_address"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.285" />
+
+    <Button
+        android:id="@+id/btn_edit_profile"
+        android:layout_width="178dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="6dp"
+        android:alpha="0.8"
+        android:background="@drawable/custom_button_background"
+        android:backgroundTint="#EDDCDC"
+        android:text="@string/edit_prodile"
+        android:textSize="18sp"
+        app:iconTint="@color/light_green"
+        app:layout_constraintEnd_toEndOf="@+id/backgroundViewBtn"
+        app:layout_constraintHorizontal_bias="0.028"
+        app:layout_constraintStart_toStartOf="@+id/backgroundViewBtn"
+        app:layout_constraintTop_toTopOf="@+id/backgroundViewBtn"
+        app:strokeColor="#DDC9C9" />
+
+    <Button
+        android:id="@+id/btn_show_routes"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/show_me_routes"
+        android:alpha="0.8"
+        android:textSize="18sp"
+        android:background="@drawable/custom_button_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.023"
+        app:layout_constraintStart_toStartOf="@+id/backgroundViewBtn"
+        app:layout_constraintTop_toBottomOf="@+id/btn_edit_profile" />
+
+
+    <!--    <ListView-->
+<!--        android:layout_width="382dp"-->
+<!--        android:layout_height="287dp"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/backgroundViewBtn"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/backgroundViewBtn"-->
+<!--        tools:layout_editor_absoluteX="-5dp" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/person"
+        android:title="My profile"
+        android:icon="@drawable/person_hat"/>
+    <item
+        android:id="@+id/explore"
+        android:title="Start Your Journey"
+        android:icon="@drawable/explore"/>
+    <item
+        android:id="@+id/route"
+        android:title="Explore"
+        android:icon="@drawable/route_trip"/>
+</menu>

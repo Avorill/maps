@@ -27,4 +27,5 @@ public class MyApp  extends Application {
         singleton = this;
         myLocations = new ArrayList<>();
     }
+
 }

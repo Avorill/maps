@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/duration_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/b"
+    tools:context=".RouteExtraDetails">
+
+    <View
+        android:id="@+id/extra_view"
+        android:layout_width="match_parent"
+        android:layout_height="256dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="512dp"
+        android:alpha="0.4"
+        android:background="@drawable/rounded_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/extra_view"
+        app:layout_constraintEnd_toEndOf="@+id/extra_view"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/extra_view"
+        app:layout_constraintTop_toTopOf="@+id/extra_view"
+        app:layout_constraintVertical_bias="0.076">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/extra_view"
+            app:layout_constraintStart_toStartOf="@id/extra_view"
+            app:layout_constraintTop_toTopOf="@id/extra_view">
+
+
+            <TextView
+                android:id="@+id/name_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/empty"
+                android:textColor="#37474F"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@id/extra_view" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/extra_view"
+            app:layout_constraintStart_toStartOf="@id/extra_view"
+            app:layout_constraintTop_toTopOf="@id/extra_view">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/start_date"
+                android:textColor="#37474F"
+                android:layout_marginEnd="8dp"
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="@id/extra_view"
+                app:layout_constraintTop_toBottomOf="@+id/duration_tv" />
+
+            <TextView
+                android:id="@+id/start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/empty"
+                android:textColor="#37474F"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#37474F"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/extra_view"
+            app:layout_constraintStart_toStartOf="@id/extra_view"
+            app:layout_constraintTop_toTopOf="@id/extra_view">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/duration"
+                android:textColor="#37474F"
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="@id/extra_view" />
+
+            <TextView
+                android:id="@+id/duration_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#37474F"
+                android:text="@string/empty"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/extra_view"
+            app:layout_constraintStart_toStartOf="@id/extra_view"
+            app:layout_constraintTop_toTopOf="@id/extra_view">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textColor="#37474F"
+                android:text="@string/distance"
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="@id/extra_view"
+                app:layout_constraintTop_toBottomOf="@+id/start_date" />
+
+            <TextView
+                android:id="@+id/distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#37474F"
+                android:text="@string/empty"
+                android:textSize="22sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/extra_view_btn"
+        android:layout_width="373dp"
+        android:layout_height="237dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.4"
+        android:background="@drawable/rounded_background"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/extra_view"
+        app:layout_constraintVertical_bias="0.042" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/extra_view_btn"
+        app:layout_constraintStart_toStartOf="@+id/extra_view_btn"
+        app:layout_constraintTop_toTopOf="@+id/extra_view_btn"
+        app:layout_constraintVertical_bias="0.0">
+
+        <Button
+            android:id="@+id/btn_shared_extra_map"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:alpha="0.8"
+            android:background="@drawable/custom_button_background"
+            android:backgroundTint="#EDDCDC"
+            android:text="@string/show_map"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:iconTint="@color/light_green"
+            android:layout_weight="1"
+            app:strokeColor="#DDC9C9"
+            tools:ignore="ButtonStyle" />
+
+
+    </LinearLayout>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
