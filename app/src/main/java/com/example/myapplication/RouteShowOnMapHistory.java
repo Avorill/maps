@@ -35,7 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
-import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
+
 
 public class RouteShowOnMapHistory extends AppCompatActivity {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
@@ -52,7 +52,7 @@ public class RouteShowOnMapHistory extends AppCompatActivity {
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
 //        Button btn_return = findViewById(R.id.btn_return);
-        map = (MapView) findViewById(R.id.map_history);
+        map = findViewById(R.id.map_history);
         map.setTileSource(TileSourceFactory.MAPNIK);
         requestPermissionsIfNecessary(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE });
         String routeId = getIntent().getStringExtra("ID");

@@ -27,8 +27,6 @@ import com.google.firebase.firestore.AggregateSource;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -84,7 +82,7 @@ public class RouteExtraDetails extends AppCompatActivity {
         if(distance != 0.0)
             distanceText.setText(String.valueOf(distance));
         else
-            distanceText.setText("No Information");
+            distanceText.setText(R.string.no_info);
         startDateText.setText(startDate);
 
         FirebaseFirestore fdb = FirebaseFirestore.getInstance();
@@ -184,7 +182,7 @@ public class RouteExtraDetails extends AppCompatActivity {
 //---------------------------------------------------
         showMapButton.setOnClickListener(v -> {
             Intent intent = new Intent(RouteExtraDetails.this, RouteShowOnMapHistory.class);
-            intent.putExtra("LOCATIONS", (Serializable) locations);
+            intent.putExtra("LOCATIONS", locations);
             intent.putExtra("ACTIVITY", 0);
             intent.putExtra("ID", routeId);
             startActivity(intent);

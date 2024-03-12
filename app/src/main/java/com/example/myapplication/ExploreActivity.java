@@ -84,7 +84,7 @@ public class ExploreActivity extends AppCompatActivity implements RecycleViewInt
 
 
                 });
-        Log.d(TAG, "envent");
+        Log.d(TAG, "event");
 
     }
 
