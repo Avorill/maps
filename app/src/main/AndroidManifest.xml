@@ -8,7 +8,8 @@
     <uses-permission android:name="android.permission.ACCESS_FOREGROUND_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
         android:name=".MyApp"
@@ -22,8 +23,13 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
-            android:name=".RouteShowOnMapHistory"
+            android:name=".SharedRouteExtra"
             android:exported="false" />
+        <activity
+            android:name=".RouteShowOnMapHistory"
+            android:enableOnBackInvokedCallback="true"
+            android:exported="false"
+            tools:targetApi="tiramisu" />
         <activity
             android:name=".RouteExtraDetails"
             android:exported="false" />
@@ -56,7 +62,9 @@
         <activity
             android:name=".MapsActivity"
             android:exported="false"
-            android:label="@string/title_activity_maps" />
+            android:enableOnBackInvokedCallback="true"
+            android:label="@string/title_activity_maps"
+            tools:targetApi="tiramisu" />
         <activity
             android:name=".ShowSavedLoctionsList"
             android:exported="false" />

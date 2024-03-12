@@ -4,6 +4,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -15,7 +18,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
+
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -54,7 +60,6 @@ public class MapsActivity extends AppCompatActivity{
         //inflate and create the map
         setContentView(R.layout.activity_maps);
 
-        Button btn_test = findViewById(R.id.btn_test);
         map = (MapView) findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
 
@@ -64,8 +69,8 @@ public class MapsActivity extends AppCompatActivity{
             @Override
             public void handleOnBackPressed() {
                 Intent intent = new Intent(MapsActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-
                 finish();
             }
         });
@@ -93,22 +98,10 @@ public class MapsActivity extends AppCompatActivity{
         line.setPoints(points);
         map.getOverlayManager().add(line);
 
-        btn_test.setOnClickListener(v -> {
-            Intent i = new Intent(MapsActivity.this,MainActivity.class);
-            startActivity(i);
-            finish();
 
-        });
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        super.onBackPressed();
-//        Intent intent = new Intent(this, MainActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
+
 
     @Override
     public void onResume() {
@@ -122,10 +115,18 @@ public class MapsActivity extends AppCompatActivity{
         savedLocations = myApp.getMyLocations();
         points = new ArrayList<>();
         for (Location location : savedLocations) {
+
             GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
             points.add(point);
             Marker marker = new Marker(map);
             marker.setPosition(point);
+            if(savedLocations.indexOf(location) == 0 ) {
+                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.red, null);
+                marker.setIcon(d);
+            } else {
+                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.green, null);
+                marker.setIcon(d);
+            }
             marker.setTitle("Lat: " + location.getLatitude() + "; Lon: " + location.getLongitude());
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
             map.getOverlays().add(marker);

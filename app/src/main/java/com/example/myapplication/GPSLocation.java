@@ -8,21 +8,23 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 
 public class GPSLocation implements Parcelable  {
+    double alt;
+    double lat;
 
     double lon;
-    double lat;
-    double alt;
+
+
     long time;
 
 
     public static final Creator<GPSLocation> CREATOR = new Creator<GPSLocation>() {
         @Override
         public GPSLocation createFromParcel(Parcel source) {
-            double lon = source.readDouble();
-            double lat = source.readDouble();
             double alt = source.readDouble();
+            double lat = source.readDouble();
+            double lon = source.readDouble();
             long time = source.readLong();
-            return new GPSLocation(lat,lon,time,alt);
+            return new GPSLocation(alt,lat,lon, time);
         }
 
         @Override
@@ -43,11 +45,11 @@ public class GPSLocation implements Parcelable  {
     public GPSLocation() {
     }
 
-    public GPSLocation(double lat, double lon, long time, double alt) {
-        this.lon = lon;
+    public GPSLocation(double alt, double lat, double lon, long time) {
+        this.alt = alt;
         this.lat = lat;
         this.time = time;
-        this.alt = alt;
+        this.lon = lon;
     }
 
     public double getLon() {
@@ -84,9 +86,9 @@ public class GPSLocation implements Parcelable  {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         Log.v(TAG, "writeToParcel..."+ flags);
+        dest.writeDouble(alt);
         dest.writeDouble(lat);
         dest.writeDouble(lon);
-        dest.writeDouble(alt);
         dest.writeLong(time);
 
 

@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -49,12 +50,14 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity  {
+
+
     public static final long DEFAULT_UPDATE_INTERVAL = 30;
     public static final long FASTEST_UPDATE_INTERVAL = 5;
     private static final int PERMISSION_FINE_LOCATION = 99;
     TextView tv_lat, tv_lon, tv_altitude,  tv_updates,
     tv_wayPointCounts, address_line;
-    Button  btn_showWayPointList, btn_showMap, btn_showProfile, btn_stop_and_save_trip, btn_clear;
+    Button  btn_showWayPointList, btn_showMap, btn_showProfile, btn_stop_and_save_trip, btn_clear, btn_explore;
     SwitchCompat sw_locationupdates, sw_gps;
 
 
@@ -107,10 +110,10 @@ public class MainActivity extends AppCompatActivity  {
         tv_wayPointCounts = findViewById(R.id.tv_countOfCrumbs);
         btn_showMap = findViewById(R.id.btn_showMap);
         btn_showProfile = findViewById(R.id.btn_showProfile);
+        btn_explore = findViewById(R.id.btn_shared_routes);
         address_line = findViewById(R.id.address_line);
         btn_stop_and_save_trip = findViewById(R.id.btn_stop_and_save_trip);
         MyApp myApp = (MyApp) getApplicationContext();
-
         //set all properties of Location request
 
         locationRequest = new LocationRequest.Builder(Priority.PRIORITY_BALANCED_POWER_ACCURACY,
@@ -135,6 +138,11 @@ public class MainActivity extends AppCompatActivity  {
 
             }
         };
+
+        btn_explore.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this, ExploreActivity.class);
+            startActivity(i);
+        });
 
 
 
@@ -163,6 +171,9 @@ public class MainActivity extends AppCompatActivity  {
             tv_wayPointCounts.setText(Integer.toString(savedLocations.size()));
 
         });
+        //-----------------------------------------------
+        //  STOP AND SAVE TRIP
+        //-----------------------------------------------
 
         btn_stop_and_save_trip.setOnClickListener(v -> {
             if(savedLocations.size() != 0) {
@@ -179,8 +190,8 @@ public class MainActivity extends AppCompatActivity  {
                     route_count = snapshot.get("route_count",Integer.TYPE);
                     Log.d(TAG, "route_count was gotten");
                     transaction.update(dr,"route_count", route_count + 1);
-
                     return null;
+
                 }).addOnSuccessListener(unused -> {
                     Log.d(TAG, "Transaction success!");
                     DocumentReference dr_names = fdb.collection("routes")
@@ -195,62 +206,35 @@ public class MainActivity extends AppCompatActivity  {
                             .document(userId).collection("journeys");
                     for (Location location : savedLocations) {
                         Log.d(TAG,"Start writing to db");
-//                        DocumentReference documentReference = fdb.collection("routes")
-//                                .document(userId).collection("journey" + route_count).document("loc" + i);
+
 
 
 
 
 
                         if(i == 0) {
-//                            DocumentReference dr_start_time = fdb.collection("routes")
-//                                    .document(userId).collection("journey" + route_count)
-//                                    .document("start_time");
-//                            Map<String, Object> start_time = new HashMap<>();
-//                            start_time.put("start", location.getTime());
+
                             starting[0] = location.getTime();
-//                            dr_start_time.set(start_time);
+
                             route.setStartDate(starting[0]);
 
 
                         }
                         if(i == savedLocations.size()-1) {
-//                            DocumentReference dr_duration = fdb.collection("routes")
-//                                    .document(userId).collection("journey" + route_count)
-//                                    .document("duration");
-//                            Map<String, Object> duration = new HashMap<>();
-//                            duration.put("duration", location.getTime() - starting[0]);
-//                            dr_duration.set(duration);
+
                             route.setDuration(location.getTime() - starting[0]);
                         } else {
                             route.setDistance(route.getDistance() + location.distanceTo(savedLocations.get(i+1)));
                         }
                         i++;
 
-                        gpsLocations.add(new GPSLocation(location.getLatitude(), location.getLongitude(),
-                                location.getTime(), location.getAltitude()));
+                        gpsLocations.add(new GPSLocation(location.getAltitude(), location.getLatitude(), location.getLongitude(),
+                                location.getTime()));
 
-//                        loc.put("lat", location.getLatitude());
-//                        loc.put("lon", location.getLongitude());
-//                        loc.put("time", location.getTime());
-
-
-//                        documentReference.set(loc)
-//                                .addOnSuccessListener(unu -> {
-//                                    Log.d(TAG, " success add location");
-//                                    Toast.makeText(MainActivity.this, "Upload to db successful",
-//                                            Toast.LENGTH_SHORT).show();
-//                                })
-//                                .addOnFailureListener(e -> {
-//                                    Log.w(TAG, "failure in: " + e.getMessage());
-//                                    Toast.makeText(MainActivity.this, "Upload to db failed",
-//                                            Toast.LENGTH_SHORT).show();
-//                                });
 
                     }
                     route.setDistance(Math.round(route.getDistance()));
                     route.setLocations((ArrayList<GPSLocation>) gpsLocations);
-//                    route.setDistance();
                     testRef.add(route).addOnSuccessListener(unu ->{
                         Log.d(TAG, " success add location  : " );
                         Toast.makeText(MainActivity.this, "Upload to db successful",
@@ -274,8 +258,6 @@ public class MainActivity extends AppCompatActivity  {
                 }).addOnFailureListener(e -> {
                     Log.w(TAG, "Transaction failed");
                     stopLocationUpdates();
-//                    myApp.setMyLocations(new ArrayList<>());
-//                    savedLocations = myApp.getMyLocations();
                     tv_wayPointCounts.setText(Integer.toString(savedLocations.size()));
                 });
                 stopLocationUpdates();
@@ -288,6 +270,9 @@ public class MainActivity extends AppCompatActivity  {
                         Toast.LENGTH_SHORT).show();
             }
         });
+        //-----------------------------------------------
+        //  LOCATION MODE
+        //-----------------------------------------------
 
         sw_gps.setOnClickListener(v -> {
             if (sw_gps.isChecked()) {
@@ -295,14 +280,17 @@ public class MainActivity extends AppCompatActivity  {
                 locationRequest = new LocationRequest.Builder(locationRequest)
                         .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
                         .build();
-//                tv_sensor.setText("Using GPS Sensors");
+
             } else {
                 locationRequest = new LocationRequest.Builder(locationRequest)
                         .setPriority(Priority.PRIORITY_BALANCED_POWER_ACCURACY)
                         .build();
-           //     tv_sensor.setText("Using Tower + WIFI");
+
             }
         });
+        //-----------------------------------------------
+        //  LOCATION UPDATES
+        //-----------------------------------------------
 
         sw_locationupdates.setOnClickListener(v -> {
             if (sw_locationupdates.isChecked()) {
@@ -337,11 +325,8 @@ public class MainActivity extends AppCompatActivity  {
         tv_updates.setText("Off");
         tv_lat.setText("Not Tracking Location");
         tv_lon.setText("Not Tracking Location");
-       // tv_speed.setText("Not tracking location");
         address_line.setText(" ");
-//        tv_accuracy.setText("Not tracking location");
         tv_altitude.setText("Not Tracking Location");
-//        tv_sensor.setText("Not tracking location");
         sw_locationupdates.setChecked(false);
         fusedLocationProviderClient.removeLocationUpdates(locationCallBack);
 
@@ -401,11 +386,7 @@ public class MainActivity extends AppCompatActivity  {
             } else {
                 tv_altitude.setText("Not available");
             }
-//            if(location.hasSpeed()) {
-//                tv_speed.setText(String.valueOf(location.getSpeed()));
-//            } else {
-//                tv_speed.setText("Not available");
-//            }
+
 
             Geocoder geocoder = new Geocoder(MainActivity.this);
 
@@ -420,7 +401,7 @@ public class MainActivity extends AppCompatActivity  {
             MyApp myApp = (MyApp)getApplicationContext();
             savedLocations = myApp.getMyLocations();
 
-            // Show number of way pfoints
+            // Show number of way points
             tv_wayPointCounts.setText(Integer.toString(savedLocations.size()));
         });
     }

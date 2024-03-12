@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.firestore.DocumentChange;
 
-
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
@@ -25,7 +24,6 @@ import com.google.firebase.firestore.Query;
 
 
 import java.util.ArrayList;
-import java.util.Map;
 
 
 public class ShowRoutesActivity extends AppCompatActivity implements RecycleViewInterface{
@@ -43,7 +41,7 @@ public class ShowRoutesActivity extends AppCompatActivity implements RecycleView
         setContentView(R.layout.activity_show_routes_axtivity);
 
 
-        ProgressBar progressBar= new ProgressBar(this);
+        progressBar= new ProgressBar(this);
         progressBar.setVisibility(View.VISIBLE);
 
 
@@ -57,10 +55,6 @@ public class ShowRoutesActivity extends AppCompatActivity implements RecycleView
         recyclerView.setHasFixedSize(true);
         routeArrayList = new ArrayList<>();
         myAdapter = new MyAdapter(routeArrayList, ShowRoutesActivity.this, this);
-        recyclerView.setAdapter(myAdapter);
-
-
-
         recyclerView.setAdapter(myAdapter);
 
         EventChangeListener();
@@ -82,9 +76,19 @@ public class ShowRoutesActivity extends AppCompatActivity implements RecycleView
                     for(DocumentChange change : value.getDocumentChanges()){
 
                         if(change.getType() == DocumentChange.Type.ADDED){
-                            routeArrayList.add(new Pair<>(change.getDocument().getId(), change.getDocument().toObject(Route.class)));
+                            routeArrayList.add(new Pair<>(change .getDocument().getId(), change.getDocument().toObject(Route.class)));
                         }
+                        if(change.getDocument().get("is_shared") != null) {
+                            routeArrayList.get(routeArrayList.size() - 1).second.setShared((Boolean) change.getDocument().get("is_shared"));
 
+                        } else {
+                            routeArrayList.get(routeArrayList.size()-1).second.setShared(false);
+//                            DocumentReference shared = fdb.collection("routes").document(userId)
+//                                    .collection("journeys").document(change.getDocument().getId());
+//                            Map<String, Boolean> is_shared = new HashMap<>();
+//                            is_shared.put("is_shared", false);
+//                            shared.set(is_shared);
+                        }
                         myAdapter.notifyDataSetChanged();
 
                     }
@@ -106,8 +110,10 @@ public class ShowRoutesActivity extends AppCompatActivity implements RecycleView
         intent.putExtra("LOCATIONS",routeArrayList.get(position).second.getLocations());
         intent.putExtra("DISTANCE",routeArrayList.get(position).second.getDistance());
         intent.putExtra("DURATION", routeArrayList.get(position).second.getRealDuration(routeArrayList.get(position).second.getDuration()));
+        intent.putExtra("LONG_DUR", routeArrayList.get(position).second.getDuration());
+        intent.putExtra("LONG_START", routeArrayList.get(position).second.getStartDate());
         intent.putExtra("START_DATE",routeArrayList.get(position).second.realStartDate());
-
+        intent.putExtra("IS_SHARED", routeArrayList.get(position).second.isShared());
         startActivity(intent);
         finish();
 

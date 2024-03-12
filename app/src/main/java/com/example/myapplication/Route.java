@@ -11,16 +11,35 @@ public class Route {
     String name;
 
 
+
     double distance;
     long duration;
-    long start_date;
+    long startDate;
+    boolean shared = false;
+    String ID;
+
+    private String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
 
     public long getStartDate() {
-        return start_date;
+        return startDate;
     }
 
     public void setStartDate(long start_date) {
-        this.start_date = start_date;
+        this.startDate = start_date;
+    }
+
+    public boolean isShared() {
+        return shared;
+    }
+
+    public void setShared(boolean shared) {
+        this.shared = shared;
     }
 
     public Route(String name) {
@@ -65,7 +84,7 @@ public class Route {
     public String realStartDate(){
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
-        return sdf.format(start_date);
+        return sdf.format(startDate);
     }
     public String getRealDuration(long duration){
         long days = TimeUnit.MILLISECONDS.toDays(duration);
@@ -85,10 +104,7 @@ public class Route {
 
         long sec = TimeUnit.MILLISECONDS.toSeconds(duration);
 
-//       long sec = TimeUnit.MILLISECONDS.toSeconds(duration);
-//       long min = TimeUnit.SECONDS.toMinutes(sec);
-//       long hours = TimeUnit.MINUTES.toHours(min);
-//       long days = TimeUnit.HOURS.toDays(hours);
+
        if(days != 0){
            return days + " days, " + hours + " h, " + min + " min";
        }
@@ -97,7 +113,14 @@ public class Route {
        } else
            return min + " min,  " + sec + " sec";
     }
-
+    public Route(String name, double distance, long duration, long start_date, boolean shared, ArrayList<GPSLocation> locations) {
+        this.name = name;
+        this.distance = distance;
+        this.duration = duration;
+        this.startDate = start_date;
+        this.shared = shared;
+        this.locations = locations;
+    }
 
     public Route() {
         this.distance = 0;

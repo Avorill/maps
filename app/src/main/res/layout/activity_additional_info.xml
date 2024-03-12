@@ -12,14 +12,14 @@
         android:id="@+id/backgroundViewBtnAdditionalInfo"
         android:layout_width="382dp"
         android:layout_height="287dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="176dp"
         android:layout_marginEnd="8dp"
         android:alpha="0.5"
 
         android:background="@drawable/rounded_background"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,18 +37,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/backgroundViewBtnAdditionalInfo" />
 
+
     <Button
-        android:id="@+id/add_your_interests"
+        android:id="@+id/set_your_age"
         android:layout_width="180dp"
         android:layout_height="52dp"
-        android:alpha="0.8"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:alpha="0.8"
         android:background="@drawable/custom_button_background"
+        android:text="Set your age"
         android:textSize="15sp"
-        app:layout_constraintHorizontal_bias="0.078"
-        android:text="@string/edit_your_interests"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.005"
+        app:layout_constraintStart_toStartOf="@+id/backgroundViewBtnAdditionalInfo"
+        app:layout_constraintTop_toBottomOf="@+id/btn_change_nickname" />
+
+    <Button
+        android:id="@+id/btn_change_nickname"
+        android:layout_width="180dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="80dp"
+        android:alpha="0.8"
+        android:background="@drawable/custom_button_background"
+        android:text="Change Nickname"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@+id/backgroundViewBtnAdditionalInfo"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.008"
+        app:layout_constraintStart_toStartOf="@+id/backgroundViewBtnAdditionalInfo"
         app:layout_constraintTop_toBottomOf="@+id/btn_set_image" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

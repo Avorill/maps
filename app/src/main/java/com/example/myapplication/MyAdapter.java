@@ -56,6 +56,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.start_date.setText(route.realStartDate());
         holder.duration.setText(route.getRealDuration(route.getDuration()));
 
+
     }
 
     @Override
