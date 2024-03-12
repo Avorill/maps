@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.myapplication.databinding.ActivityAdditionalInfoBinding;
-
 public class AdditionalInfoActivity extends AppCompatActivity {
 
     @Override

@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -17,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 
-import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
@@ -46,7 +44,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import java.util.List;
-
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity  {
@@ -147,13 +145,13 @@ public class MainActivity extends AppCompatActivity  {
 
 
         btn_showWayPointList.setOnClickListener(v -> {
-            Intent i = new Intent(MainActivity.this,ShowSavedLoctionsList.class);
+            Intent i = new Intent(MainActivity.this, ShowSavedLocationsList.class);
             startActivity(i);
         });
 
         btn_showMap.setOnClickListener(v -> {
 
-            List<Location> saved = new ArrayList<>();
+            List<Location> saved;
             saved = myApp.getMyLocations();
             Intent i = new Intent(MainActivity.this, MapsActivity.class);
             i.putExtra("LOCATIONS", (Serializable) saved);
@@ -179,7 +177,7 @@ public class MainActivity extends AppCompatActivity  {
             if(savedLocations.size() != 0) {
                 auth = FirebaseAuth.getInstance();
                 fdb = FirebaseFirestore.getInstance();
-                userId = auth.getCurrentUser().getUid();
+                userId = Objects.requireNonNull(auth.getCurrentUser()).getUid();
 
 
                 savedLocations = myApp.getMyLocations();
@@ -201,7 +199,7 @@ public class MainActivity extends AppCompatActivity  {
 
                     int i = 0;
                     Route route = new Route("journey" + route_count);
-                    List<GPSLocation> gpsLocations = new ArrayList<>();
+                    ArrayList<GPSLocation> gpsLocations = new ArrayList<>();
                     CollectionReference testRef = fdb.collection("routes")
                             .document(userId).collection("journeys");
                     for (Location location : savedLocations) {
@@ -234,7 +232,7 @@ public class MainActivity extends AppCompatActivity  {
 
                     }
                     route.setDistance(Math.round(route.getDistance()));
-                    route.setLocations((ArrayList<GPSLocation>) gpsLocations);
+                    route.setLocations(gpsLocations);
                     testRef.add(route).addOnSuccessListener(unu ->{
                         Log.d(TAG, " success add location  : " );
                         Toast.makeText(MainActivity.this, "Upload to db successful",

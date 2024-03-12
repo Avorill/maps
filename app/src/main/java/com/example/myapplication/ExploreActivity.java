@@ -19,8 +19,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-//TODO make page for shared_routes with posibilities to show on map, add comment, see author nickname
 public class ExploreActivity extends AppCompatActivity implements RecycleViewInterface {
 
     RecyclerView recyclerView;
@@ -42,7 +42,7 @@ public class ExploreActivity extends AppCompatActivity implements RecycleViewInt
 
         fdb = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        userId = auth.getCurrentUser().getUid();
+        userId = Objects.requireNonNull(auth.getCurrentUser()).getUid();
 
         recyclerView = findViewById(R.id.recycler_view_for_shared);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -63,12 +63,12 @@ public class ExploreActivity extends AppCompatActivity implements RecycleViewInt
                 .orderBy("startDate", Query.Direction.DESCENDING)
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
-                        Log.e(TAG, error.getMessage());
+                        Log.e(TAG, Objects.requireNonNull(error.getMessage()));
 
                         return;
                     }
 
-                    for (DocumentChange change : value.getDocumentChanges()) {
+                    for (DocumentChange change : Objects.requireNonNull(value).getDocumentChanges()) {
 
                         if (change.getType() == DocumentChange.Type.ADDED) {
                             routeArrayList.add(new Pair<>(change.getDocument().getId(), change.getDocument().toObject(Route.class)));

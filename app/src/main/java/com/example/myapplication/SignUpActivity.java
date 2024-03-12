@@ -93,7 +93,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                             } else {
                                 try {
-                                    throw task.getException();
+                                    throw Objects.requireNonNull(task.getException());
                                 } catch (FirebaseAuthUserCollisionException e) {
 
                                     Toast.makeText(SignUpActivity.this, "Email already in use ",
@@ -111,10 +111,7 @@ public class SignUpActivity extends AppCompatActivity {
                                        Toast.LENGTH_SHORT).show();
                                     Log.w(TAG, "Unknown exception");
                                 }
-                                // If sign in fails, display a message to the user.
-//                                Log.d(TAG, "createUserWithEmail:failure", task.getException());
-//                                Toast.makeText(SignUpActivity.this, "Registration failed.",
-//                                        Toast.LENGTH_SHORT).show();
+
 
                             }
                         });

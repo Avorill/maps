@@ -16,6 +16,7 @@ import com.google.firebase.firestore.DocumentReference;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
 
 
 public class ProfileActivity extends AppCompatActivity {
@@ -46,7 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         FirebaseFirestore fdb = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        String userID = auth.getCurrentUser().getUid();
+        String userID = Objects.requireNonNull(auth.getCurrentUser()).getUid();
 
 
         if(auth.getCurrentUser() == null){

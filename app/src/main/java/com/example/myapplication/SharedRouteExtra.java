@@ -15,16 +15,7 @@ import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 
-import com.google.firebase.auth.FirebaseAuth;
-
-import com.google.firebase.firestore.FirebaseFirestore;
-
-
-import java.io.Serializable;
 import java.util.ArrayList;
-
-import java.util.concurrent.atomic.AtomicReference;
-
 
 public class SharedRouteExtra extends AppCompatActivity {
 
@@ -58,12 +49,8 @@ public class SharedRouteExtra extends AppCompatActivity {
         if(distance != 0.0)
             distanceText.setText(String.valueOf(distance));
         else
-            distanceText.setText("No Information");
+            distanceText.setText(R.string.no_info);
         startDateText.setText(startDate);
-
-        FirebaseFirestore fdb = FirebaseFirestore.getInstance();
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        String userId = auth.getUid();
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -79,7 +66,7 @@ public class SharedRouteExtra extends AppCompatActivity {
 //---------------------------------------------------
         showMapButton.setOnClickListener(v -> {
                     Intent intent = new Intent(SharedRouteExtra.this, RouteShowOnMapHistory.class);
-                    intent.putExtra("LOCATIONS", (Serializable) locations);
+                    intent.putExtra("LOCATIONS", locations);
                     intent.putExtra("ID", routeId);
                     intent.putExtra("ACTIVITY", 1);
                     startActivity(intent);
